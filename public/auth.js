@@ -77,6 +77,10 @@
   function chip() {
     if (document.querySelector("[data-sx-chip]") || /^\/(signin|account|admin)\.html/.test(location.pathname)) return;
     var u = SX.user(), host = document.querySelector("[data-sx-account]") || document.querySelector("header nav") || document.querySelector("nav");
+    if (!host && location.pathname === "/buy-code.html") {      // this page has no header: add a slim bar
+      host = document.createElement("div"); host.style.cssText = "display:flex;justify-content:flex-end;padding:8px 12px;max-width:560px;margin:0 auto";
+      document.body.insertBefore(host, document.body.firstChild);
+    }
     if (!host) return;
     var a = document.createElement("a");
     a.setAttribute("data-sx-chip", "1"); a.className = "sx-acct";

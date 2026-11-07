@@ -107,8 +107,13 @@ async function sendMail(lib, env, to, subject, text) {
 /** Runs for every POST /api: makes sure tables exist, resolves the signed-in user and flags same-site requests. */
 export async function attachUser(lib, env, req, url, b) {
   await ensureAccounts(env.DB);
-  const origin = req.headers.get("Origin");
-  b.__web = !!origin && origin === url.origin;      // set by the server, never trusted from the body
+  // A request counts as "from the website" when it comes from this site or from any https site that
+  // fronts it (for example a Vercel domain). The router's WiFi pages are served over plain http, so they
+  // are exempt; if yours use https, list their origin(s) in the PORTAL_ORIGINS variable (comma-separated).
+  // Set by the server, never trusted from the request body.
+  const origin = req.headers.get("Origin") || "";
+  const portals = String(env.PORTAL_ORIGINS || "").split(",").map(s => s.trim()).filter(Boolean);
+  b.__web = origin === url.origin || (/^https:\/\//.test(origin) && !portals.includes(origin));
   b.__ip = (req.headers.get("CF-Connecting-IP") || "x").slice(0, 45);
   b.__user = b.token ? await sessionUser(lib, env.DB, env, b.token) : null;
 }

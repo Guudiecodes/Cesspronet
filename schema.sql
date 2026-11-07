@@ -1,4 +1,4 @@
--- Sornix Express WiFi - D1 schema (apply with: npx wrangler d1 execute sornix-wifi --file=schema.sql --remote)
+-- CessproNet WiFi - D1 schema (apply with: npx wrangler d1 execute cesspro-wifi --file=schema.sql --remote)
 
 CREATE TABLE IF NOT EXISTS settings (
   key   TEXT PRIMARY KEY,

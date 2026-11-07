@@ -1,0 +1,10 @@
+{
+  "framework": null,
+  "buildCommand": null,
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/", "destination": "/home.html" },
+    { "source": "/api", "destination": "https://cesspro-wifi.cesspronet-wifi.workers.dev/api" },
+    { "source": "/healthz", "destination": "https://cesspro-wifi.cesspronet-wifi.workers.dev/healthz" }
+  ]
+}

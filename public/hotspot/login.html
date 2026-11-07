@@ -173,7 +173,7 @@ function openOrder(p){cur=p;q("#mt").textContent=p.name+" - \u20A6"+p.price;
  q("#oid").value=MAC;q("#apw").value="";q("#omsg").textContent="";
  q("#done").hidden=true;q("#go").hidden=false;q("#paynow").hidden=!liveGw();q("#paynow").textContent="Pay \u20A6"+p.price;q("#ov").hidden=false}
 q("#tgo").onclick=function(){var m=q("#tmsg");m.textContent="";
- if(MAC.indexOf("$(")!==-1){m.className="err";m.textContent="Start the trial from the WiFi login page on your device: connect to the Sornix WiFi and the page will open by itself.";return}
+ if(MAC.indexOf("$(")!==-1){m.className="err";m.textContent="Start the trial from the WiFi login page on your device: connect to the CessproNet WiFi and the page will open by itself.";return}
  var ph=q("#tph").value.trim(),d=ph.replace(/\D/g,"");
  if(d.length===13&&d.startsWith("234"))ph="0"+d.slice(3);else if(d.length===10&&/^[89]/.test(d))ph="0"+d;
  if(!/^0[789][01]\d{8}$/.test(ph)){m.className="err";m.textContent="Enter your full Nigerian phone number, e.g. 08031234567 - it keeps the trial tied to you.";return}

@@ -1,6 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sornix Express WiFi</title><link rel="stylesheet" href="sx.css"></head><body><main>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CessproNet WiFi</title><link rel="stylesheet" href="sx.css"></head><body><main>
 <div id="ad" hidden><a id="adl" target="_blank" rel="noopener"><img id="adi" alt=""></a></div>
-<h1 id="title">Sornix Express WiFi</h1><p class="muted" id="welcome">Sign in or buy a plan to get online.</p>
+<h1 id="title">CessproNet WiFi</h1><p class="muted" id="welcome">Sign in or buy a plan to get online.</p>
 $(if error)<p class="err">$(error)</p>$(endif)
 <div class="tabs"><button class="on" data-t="pin">Voucher PIN</button><button data-t="usr">Username</button><button data-t="mac">Auto MAC</button></div>
 <form class="t card" id="pin" method="post" action="$(link-login-only)"><input type="hidden" name="dst" value="$(link-orig)"><input type="hidden" name="popup" value="true">
@@ -60,7 +60,7 @@ q("#showall").onclick=function(){showAll=!showAll;drawPlans()};
 
 function boot(n){Promise.all([j(API+"?action=getSettings"),j(API+"?action=getPlans")]).then(function(a){q("#perr").textContent="";
  S=a[0].settings||{};GW=a[0].gateways||{};
- q("#title").textContent=S.site_name||"Sornix Express WiFi";if(S.welcome_text)q("#welcome").textContent=S.welcome_text;
+ q("#title").textContent=S.site_name||"CessproNet WiFi";if(S.welcome_text)q("#welcome").textContent=S.welcome_text;
  var ph=String(S.whatsapp_phone||S.support_phone||"").replace(/\D/g,"");if(ph){q("#wa").href="https://wa.me/"+ph;q("#wa").hidden=false}
  var bn=(a[0].banners||[]),i=0;if(bn.length){q("#ad").hidden=false;var show=function(){var b=bn[i++%bn.length];q("#adi").src=b.image_url;if(b.link_url)q("#adl").href=b.link_url;else q("#adl").removeAttribute("href")};show();if(bn.length>1)setInterval(show,5000)}
  PLANS=a[1].plans||[];drawPlans();
@@ -121,7 +121,7 @@ q("#paynow").onclick=function(){var gw=liveGw(),m=q("#omsg");if(!gw)return;
   else if(gw==="flutterwave"){
    loadJs("https://checkout.flutterwave.com/v3.js").then(function(){
     FlutterwaveCheckout({public_key:GW.flutterwave.public_key,tx_ref:ref,amount:cur.price,currency:"NGN",
-     customer:{email:em,phonenumber:ph,name:r.identifier},customizations:{title:S.site_name||"Sornix Express WiFi",description:cur.name},
+     customer:{email:em,phonenumber:ph,name:r.identifier},customizations:{title:S.site_name||"CessproNet WiFi",description:cur.name},
      callback:function(){settle()},onclose:function(){}}) 
    }).catch(function(){m.className="err";m.textContent="Payment script blocked on this network. Use bank transfer."})}
   else{m.className="err";m.textContent="This gateway is not supported yet. Use bank transfer."}

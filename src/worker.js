@@ -20,7 +20,7 @@ const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods
 const SX_VERSION = "12";
 // Bump PORTAL_GEN whenever any public/hotspot/* file changes: routers then delete and
 // re-download the portal pages once (verified by the PORTALSZ size beacon in rdiag).
-const PORTAL_GEN = "13";
+const PORTAL_GEN = "14";
 const PORTAL_FILES = ["login.html", "alogin.html", "error.html", "logout.html", "redirect.html", "status.html", "sx.css"];
 const VOUCHER_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const MAC_RE = /^([0-9a-fA-F]{2}[:\-]?){5}[0-9a-fA-F]{2}$/;
@@ -996,7 +996,7 @@ async function routerSync(db, env, req) {
   // 4. build RSC
   const missingEarly = [...desired.keys()].filter(n => !haveU.has(n));
   const apiBase = env.PUBLIC_ORIGIN || "https://cesspro-wifi.cesspronet-wifi.workers.dev";
-  const out = ["# Sornix sync generated " + t + " (router " + (rep.version || "?") + ") - do not edit",
+  const out = ["# CessproNet sync generated " + t + " (router " + (rep.version || "?") + ") - do not edit",
     "# self-update: version-gated - only pushed when the router's script reports an older S version"];
   const beaconRaw = (m) => '/tool fetch url="' + apiBase + '/router/diag?token=' + env.ROUTER_TOKEN + '&m=' + m + '" http-method=post http-data="b" output=none as-value';
   const beacon = (m) => ':do { ' + beaconRaw(m) + ' } on-error={ }';
@@ -1162,7 +1162,7 @@ export default {
         const api = env.PUBLIC_ORIGIN || "https://cesspro-wifi.cesspronet-wifi.workers.dev";
         const host = new URL(api).host;
         const rsc = [
-          "# Sornix clean-slate installer v3 - generated " + nowIso(),
+          "# CessproNet clean-slate installer v3 - generated " + nowIso(),
           "# 1) remove every trace of old + broken sornix/sx objects",
           '/system scheduler remove [find where on-event~"sornix"]',
           '/system scheduler remove [find where name="sx-sync"]',

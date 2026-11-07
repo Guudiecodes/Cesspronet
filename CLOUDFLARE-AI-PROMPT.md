@@ -26,7 +26,7 @@ Follow these steps exactly, in order:
      stay directly addressable, no clean-URL redirects);
    - D1 binding: database `sornix-wifi` bound as `DB`;
    - plain vars: PUBLIC_ORIGIN="https://isp.sornix.com.ng",
-     TIMEZONE="Africa/Lagos", MAIL_FROM="Sornix WiFi <noreply@sornix.com.ng>".
+     TIMEZONE="Africa/Lagos", MAIL_FROM="CessproNet WiFi <noreply@sornix.com.ng>".
 
 3. SECRETS — set these Worker secrets (never print them except where instructed):
    - ROUTER_TOKEN: generate 64 random hex characters yourself. Show it ONCE in the

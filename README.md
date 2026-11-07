@@ -1,4 +1,4 @@
-# Sornix Express WiFi — Cloudflare Workers + D1 + MikroTik Groove (all free tier)
+# CessproNet WiFi — Cloudflare Workers + D1 + MikroTik Groove (all free tier)
 
 This project replaces the old **Google Apps Script + Google Sheets** backend with a
 **Cloudflare Worker (free) + D1 database (free)**, while the **MikroTik Groove router**
@@ -64,7 +64,7 @@ wrangler login
 
 # 1) database
 wrangler d1 create sornix-wifi         # copy the printed database_id into wrangler.toml
-wrangler d1 execute sornix-wifi --file=schema.sql --remote
+wrangler d1 execute cesspro-wifi --file=schema.sql --remote
 
 # 2) secrets
 wrangler secret put ROUTER_TOKEN       # paste: openssl rand -hex 32
@@ -156,7 +156,7 @@ Consequences you can rely on:
 ## 7. Local development / testing
 
 ```bash
-npx wrangler d1 execute sornix-wifi --file=schema.sql --local
+npx wrangler d1 execute cesspro-wifi --file=schema.sql --local
 npx wrangler dev                       # reads .dev.vars; http://127.0.0.1:8787
 # admin OTP codes print to the dev log; simulate a router:
 curl -X POST --data "U TEST-CODE" "http://127.0.0.1:8787/router/sync?token=devtoken-…"

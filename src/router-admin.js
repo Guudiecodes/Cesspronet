@@ -1,5 +1,5 @@
 /**
- * Router management for the admin panel (Sornix / CessproNet WiFi).
+ * Router management for the admin panel (CessproNet / CessproNet WiFi).
  * Kept in its own module so it can be added without touching the proven sync code in worker.js.
  *
  * Admin API (token-checked by worker.js before it gets here):
@@ -45,7 +45,7 @@ export function buildSetupRsc(env, cfg) {
   const host = new URL(api).host;
   const walled = [host, ...BASE_WALLED, ...cfg.walled.filter(h => h !== host && !BASE_WALLED.includes(h))];
   const rsc = [
-          "# Sornix clean-slate installer v3 - generated " + nowIso(),
+          "# CessproNet clean-slate installer v3 - generated " + nowIso(),
           "# 1) remove every trace of old + broken sornix/sx objects",
           '/system scheduler remove [find where on-event~"sornix"]',
           '/system scheduler remove [find where name="sx-sync"]',
