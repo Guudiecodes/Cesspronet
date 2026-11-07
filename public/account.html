@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05060b">
+<meta name="robots" content="noindex">
+<title>My account · CessproNet</title>
+<link rel="stylesheet" href="/account.css">
+</head><body>
+<header class="sx-top">
+  <a class="sx-brand" href="/" aria-label="CessproNet home"><i>C</i><b>CESSPRO<span>NET</span></b></a>
+  <div><button class="btn alt sm" id="so" type="button"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>Sign out</button></div>
+</header>
+<main class="sx-main wide">
+  <div class="hdr"><div><h1 id="hello">My account</h1><p class="mut" id="who" style="margin:0 0 14px">Loading…</p></div><a class="btn sm" href="/buy-code.html">Buy a plan</a></div>
+  <div class="tabs t3" role="tablist" style="max-width:520px">
+    <button type="button" role="tab" id="tab-buys" aria-selected="true">Purchases</button>
+    <button type="button" role="tab" id="tab-prof" aria-selected="false">Profile</button>
+    <button type="button" role="tab" id="tab-sec" aria-selected="false">Password</button>
+  </div>
+  <div id="view"></div>
+</main>
+<script src="/auth.js"></script>
+<script>
+(function () {
+  "use strict";
+  if (!SX.requireSignIn()) return;
+  if (SX.user() && SX.user().role === "admin") { location.replace("/admin.html"); return; }
+  var $ = function (id) { return document.getElementById(id); }, view = $("view"), ME = null, DATA = null;
+  var ICON_BOX = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>';
+  function el(t, a) { var e = document.createElement(t); a = a || {}; for (var k in a) { if (k === "on") for (var v in a.on) e.addEventListener(v, a.on[v]); else if (k === "html") e.innerHTML = a[k]; else if (k in e) e[k] = a[k]; else e.setAttribute(k, a[k]); }
+    (function add(list) { for (var i = 0; i < list.length; i++) { var c = list[i]; if (c == null || c === false) continue; if (Array.isArray(c)) add(c); else e.append(c.nodeType ? c : document.createTextNode(c)); } })([].slice.call(arguments, 2)); return e; }
+  function money(n) { return "\u20A6" + Number(n || 0).toLocaleString(); }
+  function when(s) { if (!s) return "-"; var d = new Date(s); return isNaN(d) ? String(s).slice(0, 10) : d.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) + ", " + d.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" }); }
+  var STATUS = { requested: ["Waiting for payment", "warn"], approved: ["Paid, connecting", "ok"], activated: ["Active", "ok"], rejected: ["Rejected", "err"], revoking: ["Ending", "warn"], revoked: ["Ended", "err"] };
+  function sel(id) { ["tab-buys", "tab-prof", "tab-sec"].forEach(function (t) { $(t).setAttribute("aria-selected", t === id); }); }
+  function msgEl() { return el("p", { id: "pm", role: "status" }); }
+  function setMsg(t, cls) { var m = $("pm"); if (m) { m.textContent = t; m.className = cls || ""; } }
+
+  function copyBtn(text) {
+    return el("button", { type: "button", className: "btn alt sm", on: { click: function () {
+      var b = this, done = function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy code"; }, 1800); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () {}); else { var t = el("textarea", { value: text }); document.body.append(t); t.select(); try { document.execCommand("copy"); done(); } catch (e) {} t.remove(); }
+    } } }, "Copy code");
+  }
+
+  function drawBuys() {
+    sel("tab-buys"); view.textContent = "";
+    var codes = DATA.codes || [], orders = DATA.orders || [];
+    if (!codes.length && !orders.length) {
+      view.append(el("div", { className: "card empty" }, el("div", { html: ICON_BOX }), el("h2", {}, "No purchases yet"),
+        el("p", { className: "mut" }, "When you buy a plan or a code, it shows up here so you can find it again."),
+        el("a", { className: "btn", href: "/buy-code.html", style: "max-width:260px;margin:12px auto 0" }, "Buy a plan")));
+      return;
+    }
+    if (codes.length) {
+      view.append(el("h2", { style: "margin-top:18px" }, "Your codes"));
+      var ul = el("ul", { className: "list" });
+      codes.forEach(function (c) {
+        ul.append(el("li", { className: "item" },
+          el("div", { className: "row" }, el("b", {}, c.plan || "Plan"), el("span", { className: "mut" }, when(c.sold_at))),
+          el("div", { className: "code" }, c.code),
+          el("div", { className: "row" }, el("span", { className: "mut" }, [c.validity ? "Valid " + c.validity : "", c.amount ? money(c.amount) : ""].filter(Boolean).join(" \u00B7 ")), copyBtn(c.code)),
+          el("p", { className: "hint" }, "Connect to the WiFi and enter this code on the sign-in page.")));
+      });
+      view.append(ul);
+    }
+    if (orders.length) {
+      view.append(el("h2", { style: "margin-top:22px" }, "WiFi plans"));
+      var ol = el("ul", { className: "list" });
+      orders.forEach(function (o) {
+        var st = STATUS[o.status] || [o.status, ""];
+        ol.append(el("li", { className: "item" },
+          el("div", { className: "row" }, el("b", {}, o.plan || "Plan"), el("span", { className: "pill " + st[1] }, st[0])),
+          el("div", { className: "mut" }, "Order " + o.order_id + " \u00B7 " + when(o.created_at)),
+          el("div", {}, (o.id_type === "mac" ? "Device " : "Login ") + o.identifier),
+          o.expires_at ? el("div", { className: "mut" }, "Runs until " + when(o.expires_at)) : null,
+          el("div", { className: "mut" }, money(o.amount))));
+      });
+      view.append(ol);
+    }
+  }
+
+  function field(id, label, type, val, ac) { return [el("label", { htmlFor: id }, label), el("div", { className: "fld" }, el("input", { id: id, type: type || "text", value: val || "", autocomplete: ac || "off", style: "padding-left:12px" }))]; }
+
+  function drawProfile() {
+    sel("tab-prof"); view.textContent = "";
+    var f = el("form", { className: "card", noValidate: true },
+      el("h2", {}, "Your details"),
+      field("p-name", "Full name", "text", ME.name, "name"), field("p-phone", "Phone", "tel", ME.phone, "tel"),
+      el("label", {}, "Email"), el("p", { className: "mut", style: "margin:4px 0" }, ME.email),
+      el("button", { className: "btn", type: "submit" }, "Save details"), msgEl());
+    f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      SX.post("updateProfile", { token: SX.token(), name: $("p-name").value, phone: $("p-phone").value }).then(function (r) {
+        if (!r.ok) return setMsg(r.message, "err");
+        ME = r.user; SX.save(SX.token(), ME); head(); setMsg("Saved.", "ok");
+      });
+    });
+    view.append(f);
+  }
+
+  function drawSecurity() {
+    sel("tab-sec"); view.textContent = "";
+    var f = el("form", { className: "card", noValidate: true },
+      el("h2", {}, "Change password"),
+      field("s-cur", "Current password", "password", "", "current-password"), field("s-new", "New password (8 or more characters)", "password", "", "new-password"),
+      el("button", { className: "btn", type: "submit" }, "Change password"), msgEl(),
+      el("p", { className: "hint" }, "Changing your password signs you out on your other devices."));
+    f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if ($("s-new").value.length < 8) return setMsg("Choose a password of at least 8 characters.", "err");
+      SX.post("setPassword", { token: SX.token(), current: $("s-cur").value, password: $("s-new").value }).then(function (r) {
+        if (!r.ok) return setMsg(r.message, "err");
+        $("s-cur").value = $("s-new").value = ""; setMsg("Password changed.", "ok");
+      });
+    });
+    view.append(f);
+  }
+
+  function head() { $("hello").textContent = ME.name ? "Hi, " + ME.name.split(" ")[0] : "My account"; $("who").textContent = ME.email; }
+  $("so").onclick = function () { SX.signOut("/"); };
+  $("tab-buys").onclick = drawBuys; $("tab-prof").onclick = drawProfile; $("tab-sec").onclick = drawSecurity;
+
+  SX.post("accountMe", { token: SX.token() }).then(function (r) {
+    if (!r.ok) { if (r.error === "unauthorized") { SX.clear(); location.replace(SX.signInUrl("/account.html")); } else { $("who").textContent = r.message; } return; }
+    ME = r.user; DATA = r; SX.save(SX.token(), ME); head(); drawBuys();
+  });
+})();
+</script>
+</body></html>

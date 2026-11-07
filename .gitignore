@@ -1,0 +1,13 @@
+node_modules/
+.wrangler/
+.dev.vars
+.env
+_backup/
+_fix/
+_v2/
+*.zip
+recon-report.txt
+CODE-STOCK-README.txt
+router-install.txt
+
+cesspro-secrets.txt

@@ -1,0 +1,251 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#04040d"><title>CessproNet WiFi</title><link rel="stylesheet" href="sx.css"></head><body><div class="hero" aria-hidden="true"><video id="hv" autoplay muted loop playsinline preload="metadata" poster="https://cesspro-wifi.cesspronet-wifi.workers.dev/media/hero.jpg"><source src="https://cesspro-wifi.cesspronet-wifi.workers.dev/media/hero.mp4" type="video/mp4"></video></div><script>(function(){var v=document.getElementById("hv");if(!v)return;var c=navigator.connection;if((c&&c.saveData)||matchMedia("(prefers-reduced-motion:reduce)").matches){v.remove();return}v.addEventListener("error",function(){v.remove()},true);var p=v.play&&v.play();if(p&&p.catch)p.catch(function(){})})()</script><main>
+<div id="ad" hidden><a id="adl" target="_blank" rel="noopener"><img id="adi" alt=""></a></div>
+<header class="brand"><div class="logo"><img id="logo" alt="" hidden><svg id="mark" viewBox="0 0 40 40" aria-hidden="true"><path fill="#fff" d="M31 7H16C9.4 7 5 11.4 5 18v4c0 6.6 4.4 11 11 11h15v-7H17.5C15.5 26 14 24.5 14 22.5v-5C14 15.5 15.5 14 17.5 14H31z"/></svg></div><div class="wm">CESSPRO<i>NET</i></div><p class="tag">WiFi by Cesspro Technologies</p></header>
+<div class="card" id="pinready" hidden><b>Your code is ready</b><p class="muted" style="margin:.2rem 0 0">Enter your phone number below and tap Activate code.</p></div><p class="muted c" id="welcome">Sign in or buy a plan to get online.</p><ol class="hw"><li><b>1</b>Pick a plan</li><li><b>2</b>Pay</li><li><b>3</b>You're online</li></ol>
+<div class="card" id="wb" hidden></div>
+<div id="rerr">$(if error)<p class="err">$(error)</p>$(endif)</div>
+<div class="card" id="trial" hidden>
+<p id="trialtext" class="muted"></p>
+<input id="tph" type="tel" inputmode="numeric" placeholder="Your phone number (required)" autocomplete="tel">
+<p id="tmsg" class="err"></p>
+<button class="p" id="tgo">Start my free trial</button>
+</div>
+<section id="plansec"><h2>Choose a plan</h2><p class="muted" style="margin-top:-.3rem">Pay once and you are connected automatically.</p><div class="rail" id="plans"><i class="sk"></i><i class="sk"></i><i class="sk"></i></div><p class="err" id="perr"></p><p class="muted c sm">🔒 Secure checkout &middot; Connects automatically after payment</p>
+<p class="muted" id="more" hidden><button id="showall" style="width:auto;display:inline-block;padding:8px 14px">Show all plans</button></p></section>
+<details id="signin" class="card sg"><summary>Have a code or account? Sign in</summary><div class="tabs"><button class="on" data-t="pin">I have a code</button><button data-t="usr">Phone &amp; password</button><button data-t="mac">Reconnect</button></div>
+<form class="t card" id="pin" method="post" action="$(link-login-only)"><input type="hidden" name="dst" value="$(link-orig)"><input type="hidden" name="popup" value="true">
+<input name="username" placeholder="Enter voucher PIN" autocomplete="off" autocapitalize="characters" required>
+<input id="vph" type="tel" inputmode="numeric" placeholder="Your phone number (required)" autocomplete="tel" required>
+<p class="muted" style="font-size:.85rem">We keep your number only to reach you about your service.</p>
+<p id="vmsg" class="err"></p><button class="p" id="pinbtn">Activate code</button></form>
+<form class="t card" id="usr" method="post" action="$(link-login-only)" hidden><input type="hidden" name="dst" value="$(link-orig)"><input type="hidden" name="popup" value="true">
+<input name="username" placeholder="Phone number, e.g. 08031234567" autocomplete="username" required><input name="password" type="password" placeholder="Password" autocomplete="current-password"><p class="muted" style="font-size:.85rem">The phone number + password you set when ordering works on any device.</p><button class="p">Connect</button></form>
+<form class="t card" id="mac" method="post" action="$(link-login-only)" hidden><input type="hidden" name="dst" value="$(link-orig)"><input type="hidden" name="popup" value="true">
+<input type="hidden" name="username" value="$(mac)"><input type="hidden" name="password" value="$(mac)"><p class="muted">Use the plan already paid for on this device ($(mac)).</p>
+<input id="mph" type="tel" inputmode="numeric" placeholder="Your phone number (required)" autocomplete="tel"><p class="muted" style="font-size:.85rem">We keep your number only to reach you about your service.</p><p id="mmsg" class="err"></p><button class="p" id="macbtn">Connect this device</button></form></details>
+<details class="card" id="how"><summary>How it works</summary><p class="muted" id="rules" style="white-space:pre-line;font-size:.9rem"></p></details>
+</main><footer class="ft">Powered by Cesspro Technologies &middot; <a id="sp" href="tel:09035703720" style="color:inherit">09035703720</a></footer>
+<a class="fab" id="wa" href="#" hidden aria-label="WhatsApp support">💬</a>
+
+<div class="ov" id="ov" hidden><div class="card"><h2 id="mt">Order plan</h2><p class="muted" id="ms"></p>
+<div class="tabs" id="idtabs"><button class="on" data-i="dev">This device</button><button data-i="acct">Phone number</button></div>
+<div id="dev-box"><input id="oid" placeholder="Username or MAC address"><p class="muted">Sign in later with the Auto MAC button.</p></div>
+<div id="acct-box" hidden><input id="aph" type="tel" inputmode="numeric" placeholder="Phone number, e.g. 08031234567" autocomplete="tel"><input id="apw" type="password" placeholder="Password (4-32 characters)" autocomplete="new-password"><p class="muted" id="unote">First time? This creates your account - later, sign in with the same phone + password on any device.</p></div>
+<input id="oph" type="tel" placeholder="Your phone number" autocomplete="tel">
+<button class="lnk" id="acctlink">Use a phone-number account instead</button><p id="omsg" class="err"></p>
+<button class="p" id="paynow" hidden>Pay online now</button>
+<button id="go" class="lnk">Request bank details by SMS (&#8358;10 fee)</button>
+<div id="done" hidden><a class="btn" id="dvf" target="_blank" rel="noopener">Check activation status</a></div>
+<button id="cx" class="lnk">Close</button></div></div>
+
+<div class="ov" id="act" hidden role="status" aria-live="polite"><div class="card actcard">
+<div class="ring" id="ring"><svg viewBox="0 0 52 52"><circle class="rt" cx="26" cy="26" r="22"/><circle class="rp" cx="26" cy="26" r="22"/><path class="ck" d="M15 27l8 8 14-16"/></svg></div>
+<h2 id="at" style="margin:.2rem 0">Payment confirmed</h2><p class="muted" id="as">Switching you on. Keep this page open.</p>
+<ol class="steps"><li id="s1">Payment confirmed</li><li id="s2">Switching you on</li><li id="s3">Online</li></ol>
+<p class="muted" id="aw" hidden>This is taking longer than usual. Your payment is safe.</p>
+<button class="p" id="aretry" hidden>Try again now</button><a class="btn" id="avf" hidden target="_blank" rel="noopener">Check order status</a><button id="aclose" hidden>Back to plans</button>
+</div></div>
+<script>
+var API="https://cesspro-wifi.cesspronet-wifi.workers.dev/api",
+ VERIFY="https://cesspro-wifi.cesspronet-wifi.workers.dev/verify.html",MAC="$(mac)";
+var QS=location.search+location.hash,BUY=(/[?&#]buy=([\w-]+)/.exec(QS)||[])[1],STAY=/[?&#](stay|pin|buy|resume)=/.test(QS);
+if(!STAY&&"$(link-login-only)".indexOf("$(")!==-1)location.replace("https://cesspro-wifi.cesspronet-wifi.workers.dev/home.html");
+if(!STAY&&"$(link-login-only)".indexOf("$(")===-1)location.replace("https://cesspro-wifi.cesspronet-wifi.workers.dev/home.html?l="+encodeURIComponent("$(link-login-only)")+"&m="+encodeURIComponent("$(mac)"));
+var S={},GW={},PLANS=[],cur=null,idmode="dev",showAll=false,
+ q=function(s){return document.querySelector(s)},qa=function(s){return document.querySelectorAll(s)};
+var j=function(u,o){return fetch(u,o).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json()})};
+var post=function(b){return j(API,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(b)})};
+var ERRS={invalid_identifier:"Enter a valid username or MAC address.",invalid_username:"Usernames are 3-32 letters, digits, dot, dash or underscore.",
+ invalid_password:"Passwords are 4-32 characters.",username_taken:"That username is already taken. Pick another.",
+ invalid_phone:"Enter a valid phone number.",invalid_plan:"This plan is no longer available.",
+ payment_not_verified:"We could not confirm that payment. If money left your account, tell support your order ID.",
+ amount_too_low:"The amount paid is less than the plan price (including the SMS charge if you selected it).",reference_already_used:"That payment was already used.",
+ gateway_disabled:"Online payment is off right now. Use bank transfer.",too_many_attempts:"Too many attempts. Wait a few minutes.",
+ sms_not_configured:"The SMS service is not set up yet. Pay online, or contact support for bank details.",
+ bank_not_set:"Bank details are not published yet. Pay online, or contact support.",
+ sms_gateway_error:"The SMS could not be sent right now. Try again in a minute, or contact support.",
+ not_found:"We could not find that order or voucher. Check the ID/PIN and try again.",
+ invalid_code:"That does not look like a voucher PIN. PINs look like AB12-CD34-EF56.",
+ bad_json:"The request was garbled. Reload the page and try again.",
+ internal_error:"The server hit an unexpected problem. Wait a minute and try again; if it persists, contact support."};
+var msg=function(e,m){return m||ERRS[e]||"Something went wrong ("+String(e||"unknown")+") - try again, or contact support with your order ID.";};
+
+function brand(S){if(S.logo_url){var i=q("#logo");i.src=S.logo_url;i.hidden=false;q("#mark").style.display="none"}
+ var p=String(S.support_phone||S.whatsapp_phone||"").replace(/\D/g,"");if(p){q("#sp").textContent=p;q("#sp").href="tel:"+p}}
+function ng(p){var d=String(p||"").replace(/\D/g,"");if(d.length===13&&d.indexOf("234")===0)return "0"+d.slice(3);if(d.length===10&&/^[789]/.test(d))return "0"+d;return d}
+var LOGIN=q("#usr").action,DST=(function(){try{return decodeURIComponent("$(link-orig-esc)")}catch(e){return ""}})(),ST="$(link-status)",AC=null,LAST=null;
+function goUrl(){return(/^https?:\/\//.test(DST)&&DST.indexOf("/login")===-1)?DST:ST}
+function tryLogin(cr){var body="username="+encodeURIComponent(cr.u)+"&password="+encodeURIComponent(cr.p)+"&dst="+encodeURIComponent(/^https?:/.test(DST)?DST:"");
+ return fetch(LOGIN,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:body,cache:"no-store"}).then(function(r){return r.text()}).then(function(t){return t.indexOf('id="sx-'+'online"')!==-1})}
+function paint(n){["s1","s2","s3"].forEach(function(id,i){q("#"+id).className=i<n?"done":(i===n?"on":"")})}
+function activate(oid,cr){LAST=[oid,cr];if(AC)AC.stop=true;var st={stop:false,done:false,busy:false,t0:Date.now(),slow:false};AC=st;
+ q("#ov").hidden=true;q("#act").hidden=false;q("#ring").className="ring";q("#at").textContent="Payment confirmed";q("#as").textContent="Switching you on. Keep this page open.";
+ q("#aw").hidden=q("#aretry").hidden=q("#aclose").hidden=true;q("#avf").hidden=true;q("#avf").href=VERIFY+"?order="+encodeURIComponent(oid);paint(1);
+ if(cr.ph&&/^([0-9A-F]{2}:){5}[0-9A-F]{2}$/i.test(cr.u))post({action:"registerDevicePhone",mac:cr.u,phone:cr.ph}).catch(function(){});
+ function fail(t){st.stop=true;q("#at").textContent="We could not switch you on";q("#as").textContent=t;q("#aw").hidden=true;q("#avf").hidden=false;q("#aclose").hidden=false}
+ function done(){st.done=st.stop=true;paint(3);q("#ring").className="ring ok";q("#at").textContent="You're online";q("#as").textContent="Opening the internet\u2026";
+  try{if(cr.ph)localStorage.setItem("cp_phone",cr.ph)}catch(e){}try{navigator.vibrate&&navigator.vibrate([30,40,70])}catch(e){}
+  setTimeout(function(){location.href=goUrl()},1300)}
+ function poll(){if(st.stop||st.busy)return;st.busy=true;
+  j(API+"?action=getOrderStatus&order_id="+encodeURIComponent(oid)).then(function(r){if(st.stop)return;
+   var s=r.status;if(s==="rejected"||s==="revoked"||s==="revoking"){fail("This order was "+s+". Contact support with order "+oid+".");return}
+   if(s==="approved"||s==="activated")return tryLogin(cr).then(function(ok){if(ok)done()})
+  }).catch(function(){}).then(function(){st.busy=false;if(st.stop)return;
+   if(!st.slow&&Date.now()-st.t0>75000){st.slow=true;q("#aw").hidden=q("#aretry").hidden=q("#avf").hidden=q("#aclose").hidden=false}
+   setTimeout(poll,2500)})}
+ poll()}
+q("#aretry").onclick=function(){if(LAST)activate(LAST[0],LAST[1])};
+q("#aclose").onclick=function(){if(AC)AC.stop=true;q("#act").hidden=true};
+
+qa(".tabs button[data-t]").forEach(function(b){b.onclick=function(){qa(".tabs button[data-t]").forEach(function(x){x.classList.toggle("on",x===b)});qa("form.t").forEach(function(f){f.hidden=f.id!==b.dataset.t})}});
+q("#usr").onsubmit=function(){var f=this,u=f.username.value.trim(),d=u.replace(/\D/g,"");
+ if(d.length===13&&d.startsWith("234"))u="0"+d.slice(3);else if(d.length===10&&/^[89]/.test(d))u="0"+d;f.username.value=u};
+q("#pin").onsubmit=function(ev){var f=this,m=q("#vmsg");m.textContent="";
+ var pin=f.username.value.trim().toUpperCase();f.username.value=pin;
+ var ph=q("#vph").value.trim();
+ if(!/^[A-Z0-9-]{4,20}$/.test(pin)){m.textContent="Enter the voucher PIN exactly as printed, e.g. AB12-CD34-EF56.";return false}
+ if(!/^0[789][01]\d{8}$/.test(ph)){m.textContent="Enter your full Nigerian phone number, e.g. 08031234567 - it is required to use a voucher.";return false}
+ ev.preventDefault();
+ var b=q("#pinbtn");b.disabled=true;m.className="muted";m.textContent="Registering your number\u2026";
+ fetch(API,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({action:"registerVoucherPhone",code:pin,phone:ph})})
+  .then(function(r){return r.json()}).then(function(r){
+   if(r.ok){try{localStorage.setItem("cp_phone",ph)}catch(e){}f.password.value=pin;f.submit();return}
+   b.disabled=false;m.className="err";m.textContent=msg(r.error,r.message)}).catch(function(){
+   b.disabled=false;m.className="err";m.textContent="Cannot reach the server to register your number. Check your connection and press Connect again."});
+ return false};
+qa("#idtabs button").forEach(function(b){b.onclick=function(){idmode=b.dataset.i;qa("#idtabs button").forEach(function(x){x.classList.toggle("on",x===b)});q("#dev-box").hidden=idmode!=="dev";q("#acct-box").hidden=idmode!=="acct"}});
+function speed(r){var p=String(r).split("/");return "↓"+(p[1]||"?")+" ↑"+(p[0]||"?")}
+
+function days(v){var m=/(\d+)\s*([hdwm])/i.exec(v||"");if(!m)return 0;var n=+m[1],u=m[2].toLowerCase();return n*(u==="h"?1/24:u==="w"?7:u==="m"?30:1)}
+function bestPlan(l){if(l.length<2)return null;var b=null,v=1e9;l.forEach(function(p){var d=days(p.validity);if(d&&p.price/d<v){v=p.price/d;b=p}});return b}
+function drawPlans(){var box=q("#plans");box.textContent="";
+ var list=PLANS.slice().sort(function(a,b){return (b.is_featured_on_login?1:0)-(a.is_featured_on_login?1:0)||a.price-b.price});
+ var vis=showAll?list:list.filter(function(p){return p.is_featured_on_login});
+ if(!vis.length)vis=list;
+ if(!vis.length){box.innerHTML='<p class="muted">No plans listed. Contact support.</p>';return}
+ var bestP=bestPlan(vis);vis.forEach(function(p){var b=document.createElement("button");b.className="card plan"+(p===bestP?" best":"");
+  [["b","\u20A6"+p.price],["span",p.name],["span",p.validity+" · "+speed(p.rate_limit)],["span",p.shared_users+" device"+(p.shared_users>1?"s":"")]].forEach(function(x){var e=document.createElement(x[0]);e.textContent=x[1];b.appendChild(e)});
+  if(p===bestP){var g=document.createElement("i");g.className="bdg";g.textContent="Best value";b.appendChild(g)}b.onclick=function(){openOrder(p)};box.appendChild(b)});
+ var hidden=list.length-vis.length;q("#more").hidden=!(hidden>0||showAll);
+ q("#showall").textContent=showAll?"Show fewer plans":("Show all plans ("+list.length+")");
+ if(BUY&&!window.__b){window.__b=1;PLANS.forEach(function(x){if(String(x.plan_id)===BUY)openOrder(x)})}}
+q("#showall").onclick=function(){showAll=!showAll;drawPlans()};
+
+function boot(n){Promise.all([j(API+"?action=getSettings"),j(API+"?action=getPlans")]).then(function(a){q("#perr").textContent="";
+ S=a[0].settings||{};GW=a[0].gateways||{};
+ brand(S);if(S.welcome_text)q("#welcome").textContent=S.welcome_text;
+ if(S.login_rules_text)q("#rules").textContent=S.login_rules_text;
+ var ph=String(S.whatsapp_phone||S.support_phone||"").replace(/\D/g,"");if(ph){q("#wa").href="https://wa.me/"+ph;q("#wa").hidden=false}
+ var bn=(a[0].banners||[]),i=0;if(bn.length){q("#ad").hidden=false;var show=function(){var b=bn[i++%bn.length];q("#adi").src=b.image_url;if(b.link_url)q("#adl").href=b.link_url;else q("#adl").removeAttribute("href")};show();if(bn.length>1)setInterval(show,5000)}
+ PLANS=a[1].plans||[];drawPlans();
+ if(S.auto_trial_enabled==="1"&&S.trial_plan_id){var tp=null;PLANS.forEach(function(x){if(String(x.plan_id)===String(S.trial_plan_id))tp=x});
+  if(tp){q("#trial").hidden=false;var tt=S.trial_card_text||"First time here? Try {plan} FREE - no payment needed.";
+   q("#trialtext").textContent=tt.replace(/\{plan\}/g,tp.name).replace(/\{duration\}/g,tp.validity);
+   q("#tgo").textContent="\u{1F381} Start my free "+tp.name;}}
+ if(MAC.indexOf("$(")===-1){fetch(API+"?action=getMacHistory&mac="+encodeURIComponent(MAC)).then(function(r){return r.json()}).then(function(hh){
+  if(hh.ok&&hh.found&&hh.paid_orders>0){var w=q("#wb");w.textContent="";w.hidden=false;
+   var ended=(hh.last_status==="revoked"||hh.last_status==="rejected")?"was removed":(hh.last_expires?"ended "+String(hh.last_expires).slice(0,10):"has ended");
+   var p=document.createElement("p");p.className="muted";p.textContent="Welcome back! Your last plan \u201C"+hh.last_plan+"\u201D "+ended+". Re-buy in one tap:";
+   var b=document.createElement("button");b.className="p";b.textContent="Re-buy "+hh.last_plan;
+   b.onclick=function(){var pl=null;PLANS.forEach(function(x){if(x.plan_id===hh.last_plan_id)pl=x});if(pl)openOrder(pl);else{p.textContent="That plan is no longer available - please pick any plan below.";b.hidden=true}};
+   var ex=new Date(String(hh.last_expires||"").replace(" ","T"));
+   if(hh.last_status==="activated"&&ex>new Date()){p.textContent="Welcome back! Your \u201C"+hh.last_plan+"\u201D plan is still active.";b.textContent="Reconnect now";
+    b.onclick=function(){b.disabled=true;tryLogin({u:MAC,p:MAC}).then(function(ok){if(ok)location.href=goUrl();else{b.disabled=false;p.textContent="Could not reconnect automatically. Open \u201CHave a code or account?\u201D and use Reconnect."}}).catch(function(){b.disabled=false})}}
+   w.appendChild(p);w.appendChild(b)}
+ }).catch(function(){})}
+}).catch(function(e){if(n<3){q("#perr").textContent="Retrying…";setTimeout(function(){boot(n+1)},2500);return}
+ q("#perr").textContent="Could not load plans ("+(e&&e.message?e.message:e)+"). If this keeps happening, tell support the walled garden may be blocking cesspro-wifi.cesspronet-wifi.workers.dev."})}
+boot(1);
+if(/[?&#]stay=1/.test(QS))q("#signin").open=true;
+var RS=(/[?&#]resume=([\w-]+)/.exec(QS)||[])[1],RU=(/[?&#]u=([^&#]+)/.exec(QS)||[])[1];if(RS&&RU){RU=decodeURIComponent(RU);activate(RS,{u:RU,p:RU,ph:""})}
+
+(function(){var re=q("#rerr");if(re.textContent.indexOf("$(")!==-1)re.hidden=true})();
+(function(){try{var sp=localStorage.getItem("cp_phone");if(sp){["#vph","#mph","#tph"].forEach(function(s){if(!q(s).value)q(s).value=sp})}}catch(e){}
+ var m=/[?&#]pin=([A-Za-z0-9-]{4,20})/.exec(location.search+location.hash);
+ if(m){q("#pin input[name=username]").value=m[1].toUpperCase();q('.tabs button[data-t="pin"]').click();q("#pinready").hidden=false;var sg=q("#signin");sg.parentNode.insertBefore(sg,q("#plansec"));sg.open=true;
+  setTimeout(function(){var v=q("#vph");if(!v.value)v.focus()},300)}})();
+
+q("#acctlink").onclick=function(){var t=idmode==="dev"?"acct":"dev";q('#idtabs button[data-i="'+t+'"]').click();this.textContent=t==="acct"?"Use this device instead":"Use a phone-number account instead"};
+qa("form.t").forEach(function(f){f.addEventListener("submit",function(e){if(f.action.indexOf("$(")!==-1){e.preventDefault();e.stopImmediatePropagation();alert("Preview only. Sign-in works when you are connected to the CessproNet WiFi.")}},true)});
+function liveGw(){for(var k in GW)if(GW[k]&&GW[k].enabled&&GW[k].public_key)return k;return null}
+function openOrder(p){cur=p;q("#mt").textContent=p.name+" - \u20A6"+p.price;
+ q("#ms").textContent=p.validity+", "+speed(p.rate_limit)+", "+p.shared_users+" device(s)";
+ q("#oid").value=MAC;q("#apw").value="";q("#omsg").textContent="";
+ q("#done").hidden=true;q("#go").hidden=false;q("#paynow").hidden=!liveGw();q("#paynow").textContent="Pay \u20A6"+p.price;q("#ov").hidden=false}
+q("#tgo").onclick=function(){var m=q("#tmsg");m.textContent="";
+ if(MAC.indexOf("$(")!==-1){m.className="err";m.textContent="Start the trial from the WiFi login page on your device: connect to the Sornix WiFi and the page will open by itself.";return}
+ var ph=q("#tph").value.trim(),d=ph.replace(/\D/g,"");
+ if(d.length===13&&d.startsWith("234"))ph="0"+d.slice(3);else if(d.length===10&&/^[89]/.test(d))ph="0"+d;
+ if(!/^0[789][01]\d{8}$/.test(ph)){m.className="err";m.textContent="Enter your full Nigerian phone number, e.g. 08031234567 - it keeps the trial tied to you.";return}
+ var b=this;b.disabled=true;m.className="muted";m.textContent="Starting your free trial\u2026";
+ fetch(API,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({action:"createOrder",trial:1,identifier:MAC,phone:ph})})
+  .then(function(r){return r.json()}).then(function(r){
+   if(r.ok){m.className="ok";m.textContent="\u{1F381} Trial started ("+r.order_id+")! Your number "+ph+" is now your login on any device.";activate(r.order_id,{u:MAC,p:MAC,ph:ph});
+    q("#mph").value=ph;var mb=q('.tabs button[data-t="mac"]');if(mb)mb.click();return}
+   b.disabled=false;m.className="err";m.textContent=msg(r.error,r.message)}).catch(function(){
+   b.disabled=false;m.className="err";m.textContent="Cannot reach the server to start the trial. Check your connection and try again."});};
+q("#mac").onsubmit=function(ev){var f=this,m=q("#mmsg");m.textContent="";
+ var ph=q("#mph").value.trim();
+ if(!/^0[789][01]\d{8}$/.test(ph)){var d=ph.replace(/\D/g,"");if(d.length===13&&d.startsWith("234"))ph="0"+d.slice(3);else if(d.length===10&&/^[89]/.test(d))ph="0"+d;else{m.textContent="Enter your full Nigerian phone number, e.g. 08031234567 - it is required to connect this device.";return false}}
+ ev.preventDefault();
+ var b=q("#macbtn");b.disabled=true;m.className="muted";m.textContent="Registering your number\u2026";
+ fetch(API,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({action:"registerDevicePhone",mac:MAC,phone:ph})})
+  .then(function(r){return r.json()}).then(function(r){
+   if(r.ok){f.submit();return}
+   b.disabled=false;m.className="err";m.textContent=msg(r.error,r.message)}).catch(function(){
+   b.disabled=false;m.className="err";m.textContent="Cannot reach the server to register your number. Check your connection and press Connect again."});
+ return false};
+q("#cx").onclick=function(){q("#ov").hidden=true};
+
+q("#aph").onblur=function(){var u=this.value.trim();if(!/^0[789][01]\d{8}$/.test(u)){if(u.length>3){var n2=q("#unote");n2.className="err";n2.textContent="Use a full Nigerian number, e.g. 08031234567."}return}
+ j(API+"?action=checkUsername&u="+encodeURIComponent(u)).then(function(r){var n=q("#unote");
+  if(!r.ok){n.className="err";n.textContent=msg(r.error,r.message)}
+  else{n.className="ok";n.textContent=r.available?"\u2713 New account: "+u+" + this password will sign you in on any device.":"This phone already has an account - use its password to sign in."}}).catch(function(){})};
+
+function order(withSms){var ph=q("#oph").value.trim(),body={action:"createOrder",plan_id:cur.plan_id,phone:ph,sms_notify:!!withSms};
+ if(idmode==="acct"){body.account_phone=q("#aph").value.trim();body.account_pass=q("#apw").value;if(!q("#oph").value.trim())q("#oph").value=q("#aph").value.trim()}
+ else body.identifier=q("#oid").value.trim();
+ return post(body)}
+
+q("#go").onclick=function(){var m=q("#omsg"),ph=q("#oph").value.trim();m.className="muted";m.textContent="Placing order and sending bank details by SMS…";
+ if(!ph){m.className="err";m.textContent="Enter your phone number - the bank details are sent to it by SMS.";return}
+ order(true).then(function(r){
+  if(!r.ok){m.className="err";m.textContent=msg(r.error,r.message);return}
+  q("#dvf").href=VERIFY+"?order="+encodeURIComponent(r.order_id);
+  return post({action:"requestAccountSms",phone:ph}).then(function(r2){
+   if(r2.ok){m.className="ok";m.textContent="Order "+r.order_id+" placed. Bank account details sent by SMS to your phone. The \u20A610 SMS fee was added to your order total. Pay, then check status."}
+   else{m.className="err";m.textContent=msg(r2.error,r2.message)+" Your order "+r.order_id+" is still saved - you can pay online or check status."}
+   q("#done").hidden=false;q("#go").hidden=true})
+ }).catch(function(){m.className="err";m.textContent="Cannot reach the server. Check you are connected to the WiFi network (or the internet), then try again."})};
+
+function loadJs(src){return new Promise(function(res,rej){if(document.querySelector('script[src="'+src+'"]'))return res();
+ var s=document.createElement("script");s.src=src;s.onload=res;s.onerror=function(){rej(new Error("blocked"))};document.head.appendChild(s)})}
+
+q("#paynow").onclick=function(){var gw=liveGw(),m=q("#omsg");if(!gw)return;
+ m.className="muted";m.textContent="Preparing payment…";
+ order(false).then(function(r){
+  if(!r.ok){m.className="err";m.textContent=msg(r.error,r.message);return}
+  var oid=r.order_id,ref=oid+"-"+Date.now().toString(36).toUpperCase(),
+   ph=q("#oph").value.trim().replace(/[^\d+]/g,""),em=(ph.replace(/\D/g,"")||"customer")+"@sornix.com.ng",
+   cr=idmode==="acct"?{u:ng(q("#aph").value),p:q("#apw").value,ph:ng(q("#aph").value)}:{u:r.identifier,p:r.identifier,ph:ng(q("#oph").value)};
+  var settle=function(){m.className="muted";m.textContent="Confirming payment…";
+   post({action:"verifyPayment",order_id:oid,gateway:gw,reference:ref}).then(function(v){
+    if(v.ok){m.className="ok";m.textContent="Payment confirmed. Your plan activates within about a minute.";
+     q("#dvf").href=VERIFY+"?order="+encodeURIComponent(oid);q("#done").hidden=false;q("#go").hidden=true;q("#paynow").hidden=true;activate(oid,cr)}
+    else{m.className="err";m.textContent=msg(v.error,v.message)+" Order "+oid+"."}}).catch(function(){
+     m.className="err";m.textContent="Could not reach the server to confirm the payment. Your order "+oid+" is saved - open the verify page to check its status, or contact support with the order ID."})};
+  if(gw==="paystack"){
+   loadJs("https://js.paystack.co/v1/inline.js").then(function(){
+    PaystackPop.setup({key:GW.paystack.public_key,email:em,amount:Math.round(cur.price*100),currency:"NGN",ref:ref,
+     metadata:{order_id:oid,identifier:r.identifier,phone:ph},
+     callback:function(){settle()},onClose:function(){m.className="err";m.textContent="Payment window closed. Order "+oid+" is still waiting."}}).openIframe()
+   }).catch(function(){m.className="err";m.textContent="Payment script blocked on this network. Use bank transfer."})}
+  else if(gw==="flutterwave"){
+   loadJs("https://checkout.flutterwave.com/v3.js").then(function(){
+     FlutterwaveCheckout({public_key:GW.flutterwave.public_key,tx_ref:ref,amount:cur.price,currency:"NGN",
+     customer:{email:em,phonenumber:ph,name:r.identifier},customizations:{title:"CessproNet WiFi",description:cur.name},
+     callback:function(){settle()},onclose:function(){}}) 
+   }).catch(function(){m.className="err";m.textContent="Payment script blocked on this network. Use bank transfer."})}
+  else{m.className="err";m.textContent="This gateway is not supported yet. Use bank transfer."}
+ }).catch(function(){m.className="err";m.textContent="Cannot reach the server. Check you are connected to the WiFi network (or the internet), then try again."})};
+</script></body></html>

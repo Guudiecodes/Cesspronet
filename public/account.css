@@ -1,0 +1,56 @@
+/* CessproNet account pages: sign in, create account, my account.
+   Matches the site look: near-black navy, one blue accent, Inter (served from your own site when present). */
+:root{--bg:#05060b;--bg2:#0b0f1d;--ink:#f1f4ff;--mut:#9aa3c2;--line:rgba(255,255,255,.1);--card:rgba(16,20,36,.82);
+--blue:#6aa8ff;--blue-ink:#04101f;--ok:#5ee0a0;--err:#ff8f86;--warn:#ffd27a;--r:14px}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+background:radial-gradient(60% 45% at 0% 0%,rgba(30,64,200,.38),transparent 70%),radial-gradient(50% 40% at 100% 100%,rgba(30,64,200,.18),transparent 70%),var(--bg) fixed}
+a{color:var(--blue)}a:hover{text-decoration:none}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:8px}
+.sx-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px max(16px,env(safe-area-inset-right)) 14px max(16px,env(safe-area-inset-left));max-width:1100px;margin:0 auto}
+.sx-brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:800;letter-spacing:.06em}
+.sx-brand i{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(145deg,#2a54d6,#1b2f86);font-style:normal;font-weight:800}
+.sx-brand b{font-weight:800}.sx-brand b span{color:var(--blue)}
+.sx-main{max-width:460px;margin:0 auto;padding:18px 16px 64px}
+.sx-main.wide{max-width:920px}
+h1{font-size:1.75rem;line-height:1.2;margin:.3rem 0 .4rem;font-weight:800;letter-spacing:-.01em}
+h2{font-size:1.1rem;margin:0 0 .6rem;font-weight:700}
+.mut{color:var(--mut)}.ok{color:var(--ok)}.err{color:var(--err)}.warn{color:var(--warn)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin:14px 0;backdrop-filter:blur(8px)}
+.note{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--r);border:1px solid rgba(106,168,255,.35);background:rgba(106,168,255,.1);margin:0 0 14px;font-size:.95rem}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);margin:0 0 16px}
+.tabs button{padding:10px;border:0;border-radius:9px;background:none;color:var(--mut);font:inherit;font-weight:600;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--blue);color:var(--blue-ink)}
+label{display:block;font-size:.9rem;font-weight:600;margin:12px 0 4px}
+.fld{position:relative}
+.fld svg.l{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--mut);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+input{width:100%;padding:12px 12px 12px 40px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--ink);font:inherit;min-height:46px}
+input::placeholder{color:#6b7494}
+input:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 3px rgba(106,168,255,.25)}
+.fld .eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;background:none;color:var(--mut);cursor:pointer;display:grid;place-items:center}
+.fld .eye svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fld.pw input{padding-right:46px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:16px;padding:13px 16px;border:0;border-radius:var(--r);background:var(--blue);color:var(--blue-ink);font:inherit;font-weight:800;cursor:pointer;text-decoration:none;min-height:48px}
+.btn:disabled{opacity:.6;cursor:wait}
+.btn.alt{background:rgba(255,255,255,.06);color:var(--ink);border:1px solid var(--line);font-weight:600}
+.btn.sm{width:auto;margin:0;min-height:40px;padding:9px 14px;white-space:nowrap}
+.btn svg,.ico{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.links{display:flex;flex-wrap:wrap;gap:6px 16px;margin:14px 0 0;font-size:.92rem}
+.links button{background:none;border:0;padding:6px 0;color:var(--blue);font:inherit;cursor:pointer;text-decoration:underline}
+#msg{min-height:1.4em;margin:12px 0 0;font-size:.95rem}
+.hint{font-size:.85rem;color:var(--mut);margin:4px 0 0}
+.bar{height:4px;border-radius:4px;background:rgba(255,255,255,.1);margin-top:8px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--err);transition:width .2s,background .2s}
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.tabs.t3{grid-template-columns:repeat(3,1fr)}
+.list{display:grid;gap:10px;margin:10px 0 0;padding:0;list-style:none}
+.item{border:1px solid var(--line);border-radius:var(--r);padding:14px;background:rgba(255,255,255,.03)}
+.item .row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:600;border:1px solid var(--line);color:var(--mut)}
+.pill.ok{color:var(--ok);border-color:rgba(94,224,160,.4)}.pill.warn{color:var(--warn);border-color:rgba(255,210,122,.4)}.pill.err{color:var(--err);border-color:rgba(255,143,134,.4)}
+.code{font:700 1.25rem/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.06em;padding:12px;border-radius:12px;background:rgba(0,0,0,.35);border:1px dashed var(--line);margin:8px 0;word-break:break-all}
+.empty{text-align:center;padding:28px 12px}.empty svg{width:34px;height:34px;stroke:var(--mut);fill:none;stroke-width:1.6;margin-bottom:6px}
+.sx-acct{display:inline-flex;align-items:center;gap:6px;color:inherit;text-decoration:none;padding:8px 12px;border-radius:10px;font-weight:600}
+.sx-acct:hover{background:rgba(255,255,255,.08)}
+.sx-acct svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}

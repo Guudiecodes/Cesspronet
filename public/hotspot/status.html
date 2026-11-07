@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#04040d"><title>CessproNet - You're online</title><link rel="stylesheet" href="sx.css"></head><body><div class="hero" aria-hidden="true"><video id="hv" autoplay muted loop playsinline preload="metadata" poster="https://cesspro-wifi.cesspronet-wifi.workers.dev/media/hero.jpg"><source src="https://cesspro-wifi.cesspronet-wifi.workers.dev/media/hero.mp4" type="video/mp4"></video></div><script>(function(){var v=document.getElementById("hv");if(!v)return;var c=navigator.connection;if((c&&c.saveData)||matchMedia("(prefers-reduced-motion:reduce)").matches){v.remove();return}v.addEventListener("error",function(){v.remove()},true);var p=v.play&&v.play();if(p&&p.catch)p.catch(function(){})})()</script><main>
+<header class="brand"><div class="logo"><img id="logo" alt="" hidden><svg id="mark" viewBox="0 0 40 40" aria-hidden="true"><path fill="#fff" d="M31 7H16C9.4 7 5 11.4 5 18v4c0 6.6 4.4 11 11 11h15v-7H17.5C15.5 26 14 24.5 14 22.5v-5C14 15.5 15.5 14 17.5 14H31z"/></svg></div><div class="wm">CESSPRO<i>NET</i></div><p class="tag">WiFi by Cesspro Technologies</p></header>
+<h1 class="c">You're online</h1><p class="muted c">Signed in as <b data-k="user">$(username)</b></p>
+<div class="card left" id="lc"><span class="lbl">Time remaining</span><b id="left">$(session-time-left)</b></div>
+<div class="card"><div class="row"><span>Time connected</span><b data-k="up">$(uptime)</b></div><div class="row"><span>Downloaded</span><b data-k="dn">$(bytes-out-nice)</b></div><div class="row"><span>Uploaded</span><b data-k="ul">$(bytes-in-nice)</b></div></div>
+<details class="card"><summary>Speed test</summary><div class="row"><span>Latency</span><b id="lat">-</b></div><div class="row"><span>Download</span><b id="dl">-</b></div><div class="row"><span>Upload</span><b id="ul">-</b></div>
+<p class="muted sm c">Uses about 6 MB of your data.</p><button class="p" id="stt">Start test</button></details>
+<form action="$(link-logout)" method="post"><button>Disconnect</button></form>
+<p class="muted c sm">Trouble staying online? Call <a id="sp2" href="tel:09035703720">09035703720</a></p></main><footer class="ft">Powered by Cesspro Technologies &middot; <a id="sp" href="tel:09035703720" style="color:inherit">09035703720</a></footer>
+<script>
+var q=function(s){return document.querySelector(s)},qa=function(s){return document.querySelectorAll(s)},busy=false,C="https://speed.cloudflare.com/__",secs=null,API="https://cesspro-wifi.cesspronet-wifi.workers.dev/api";
+function parse(s){var m,r=0,re=/(\d+)\s*([wdhms])/g,any=false,u={w:604800,d:86400,h:3600,m:60,s:1};while((m=re.exec(s))){any=true;r+=+m[1]*u[m[2]]}return any?r:null}
+function fmt(n){var d=Math.floor(n/86400),h=Math.floor(n%86400/3600),m=Math.floor(n%3600/60),s=n%60;return(d?d+"d ":"")+(d||h?h+"h ":"")+m+"m "+("0"+s).slice(-2)+"s"}
+function paint(){var l=q("#left"),c=q("#lc");if(secs===null){l.textContent="Unlimited";return}l.textContent=fmt(secs);c.className="card left"+(secs<600?" warn":"")}
+function setLeft(t){secs=parse(t);paint()}
+setLeft(q("#left").textContent);
+setInterval(function(){if(secs!==null&&secs>0){secs--;paint()}},1000);
+function refresh(){if(busy)return;fetch(location.href,{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var d=new DOMParser().parseFromString(t,"text/html");
+ qa("[data-k]").forEach(function(e){var n=d.querySelector('[data-k="'+e.getAttribute("data-k")+'"]');if(n&&n.textContent.trim())e.textContent=n.textContent});
+ var l=d.querySelector("#left");if(l&&l.textContent.trim())setLeft(l.textContent)}).catch(function(){})}
+setInterval(refresh,30000);
+fetch(API+"?action=getSettings").then(function(r){return r.json()}).then(function(s){s=s.settings||{};var p=String(s.support_phone||s.whatsapp_phone||"").replace(/\D/g,"");if(p){q("#sp").textContent=q("#sp2").textContent=p;q("#sp").href=q("#sp2").href="tel:"+p}
+ if(s.logo_url){q("#logo").src=s.logo_url;q("#logo").hidden=false;q("#mark").style.display="none"}}).catch(function(){});
+function t(){return performance.now()}
+q("#stt").onclick=async function(){var b=this;busy=true;b.disabled=true;q("#lat").textContent=q("#dl").textContent=q("#ul").textContent="…";
+ try{var best=1e9;for(var i=0;i<5;i++){var s=t();await fetch(C+"down?bytes=0",{cache:"no-store"});best=Math.min(best,t()-s)}q("#lat").textContent=Math.round(best)+" ms";
+  var s=t(),r=await fetch(C+"down?bytes=5000000",{cache:"no-store"}),buf=await r.arrayBuffer();q("#dl").textContent=(buf.byteLength*8/1e6/((t()-s)/1000)).toFixed(1)+" Mbps";
+  s=t();await fetch(C+"up",{method:"POST",body:new Uint8Array(1e6)});q("#ul").textContent=(8/((t()-s)/1000)).toFixed(1)+" Mbps"
+ }catch(e){q("#lat").textContent="-";q("#dl").textContent="Test failed";q("#ul").textContent="-"}
+ busy=false;b.disabled=false;b.textContent="Run again"};
+</script></body></html>

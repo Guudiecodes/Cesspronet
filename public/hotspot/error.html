@@ -1,0 +1,18 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#04040d"><title>CessproNet - Sign-in problem</title><link rel="stylesheet" href="sx.css"></head><body><div class="hero" aria-hidden="true"><video id="hv" autoplay muted loop playsinline preload="metadata" poster="https://cesspro-wifi.cesspronet-wifi.workers.dev/media/hero.jpg"><source src="https://cesspro-wifi.cesspronet-wifi.workers.dev/media/hero.mp4" type="video/mp4"></video></div><script>(function(){var v=document.getElementById("hv");if(!v)return;var c=navigator.connection;if((c&&c.saveData)||matchMedia("(prefers-reduced-motion:reduce)").matches){v.remove();return}v.addEventListener("error",function(){v.remove()},true);var p=v.play&&v.play();if(p&&p.catch)p.catch(function(){})})()</script><main>
+<header class="brand"><div class="logo"><img id="logo" alt="" hidden><svg id="mark" viewBox="0 0 40 40" aria-hidden="true"><path fill="#fff" d="M31 7H16C9.4 7 5 11.4 5 18v4c0 6.6 4.4 11 11 11h15v-7H17.5C15.5 26 14 24.5 14 22.5v-5C14 15.5 15.5 14 17.5 14H31z"/></svg></div><div class="wm">CESSPRO<i>NET</i></div><p class="tag">WiFi by Cesspro Technologies</p></header>
+<h1 class="c">We couldn't sign you in</h1><p class="err c" id="m"></p><p class="muted c sm" id="raw">$(error)</p>
+<a class="btn p" href="$(link-login)">Try again</a><a class="btn" id="wa" href="#" hidden>Contact support on WhatsApp</a></main><footer class="ft">Powered by Cesspro Technologies &middot; <a id="sp" href="tel:09035703720" style="color:inherit">09035703720</a></footer>
+<script>
+var API="https://cesspro-wifi.cesspronet-wifi.workers.dev/api",raw=document.getElementById("raw").textContent,e=raw.toLowerCase(),m="Something went wrong while signing in. Try again.";
+if(/invalid username|invalid password/.test(e))m="That voucher, username or password isn't valid. Check it and try again.";
+else if(/limit reached|expired/.test(e)&&/uptime|time|session/.test(e))m="Your plan has run out. Buy a new plan to reconnect.";
+else if(/simultaneous|already logged|shared/.test(e))m="This account is already in use on the maximum number of devices.";
+else if(/chap|challenge/.test(e))m="The sign-in handshake failed. Reload the page and try again.";
+else if(/radius|timeout|no response|unreachable/.test(e))m="The login server did not respond in time. Wait a few seconds and try again - if it keeps failing, the router may be offline; tell support.";
+else if(/not permitted|forbidden|denied/.test(e))m="This sign-in method is not allowed for your account. Use the voucher PIN or username/password you were given.";
+else if(/mac/.test(e)&&/invalid|not allowed|wrong/.test(e))m="This device's MAC address is not allowed to sign in. Choose Auto MAC on the login page, or contact support.";
+else if(/session/.test(e)&&/kill|end|terminat|clos/.test(e))m="Your session was ended by the router - someone signed in with your details elsewhere, or an admin logged you out.";
+else if(/trial/.test(e))m="The free trial is not available or already used on this device.";
+document.getElementById("m").textContent=m;
+fetch(API+"?action=getSettings").then(function(r){return r.json()}).then(function(s){var p=String((s.settings||{}).whatsapp_phone||(s.settings||{}).support_phone||"").replace(/\D/g,"");var sp=document.getElementById("sp");if(p&&sp){sp.textContent=p;sp.href="tel:"+p}if(p){var a=document.getElementById("wa");a.href="https://wa.me/"+p+"?text="+encodeURIComponent("Sign-in problem: "+raw);a.hidden=false}}).catch(function(){});
+</script></body></html>

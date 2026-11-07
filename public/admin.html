@@ -1,0 +1,541 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b0d14"><meta name="robots" content="noindex"><title>CessproNet Admin</title>
+<!-- sornix-admin-v2 -->
+<style>
+:root{--bg:#0b0d14;--side:#0e1119;--surf:#131723;--surf2:#181d2b;--line:#232a3b;--line2:#2e374d;--ink:#e8ebf5;--mut:#8b94ae;--blue:#6aa8ff;--blue-d:#3d7be0;--ok:#4ade80;--err:#ff7b72;--warn:#fbbf24;--r:12px;--sw:264px;--sr:68px}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html{background:var(--bg)}
+body{margin:0;color:var(--ink);font:14.5px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);-webkit-font-smoothing:antialiased}
+h1{font-size:1.25rem;margin:0;letter-spacing:-.01em}h2{font-size:1rem;margin:0 0 .6rem;letter-spacing:-.005em}h3{font-size:.8rem;margin:1.1rem 0 .4rem;color:var(--mut);text-transform:uppercase;letter-spacing:.07em;font-weight:700}
+a{color:var(--blue)}.muted{color:var(--mut)}.err{color:var(--err)}.ok{color:var(--ok)}.warn{color:var(--warn)}p{margin:.35rem 0}
+/* ---------- shell ---------- */
+.shell{display:flex;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;width:var(--sw);flex:0 0 var(--sw);background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;transition:width .2s ease,flex-basis .2s ease;overflow:hidden;z-index:30}
+.side .brand{display:flex;align-items:center;gap:10px;padding:14px 14px 10px;height:60px}
+.logo{width:36px;height:36px;flex:0 0 36px;border-radius:10px;background:linear-gradient(135deg,#4f8cff,#7c5cff);display:grid;place-items:center;font-weight:800;color:#fff;font-size:15px}
+.brand b{display:block;font-size:.95rem;line-height:1.15;white-space:nowrap}.brand small{display:block;color:var(--mut);font-size:.72rem;white-space:nowrap}
+.brand .tg{margin-left:auto}
+.side nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:4px 10px 12px}
+.ng{margin:14px 0 4px;padding:0 10px;font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#5d6682;white-space:nowrap}
+.ni{display:flex;align-items:center;justify-content:flex-start;gap:12px;width:100%;margin:1px 0;padding:9px 10px;border:0;border-radius:9px;background:transparent;color:#aab2cb;font:inherit;font-weight:500;text-align:left;text-decoration:none;cursor:pointer;white-space:nowrap;position:relative}
+.ni svg{flex:0 0 20px;width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ni:hover{background:rgba(255,255,255,.05);color:var(--ink)}
+.ni.on{background:rgba(106,168,255,.14);color:#fff}.ni.on svg{stroke:var(--blue)}
+.ni .bd{margin-left:auto;background:var(--blue);color:#06111f;font-size:.7rem;font-weight:800;border-radius:99px;padding:1px 7px}
+.ni .dt{margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--mut)}.ni .dt.g{background:var(--ok);box-shadow:0 0 0 3px rgba(74,222,128,.15)}.ni .dt.r{background:var(--err);box-shadow:0 0 0 3px rgba(255,123,114,.15)}
+.side .foot{border-top:1px solid var(--line);padding:10px}
+.tg{width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;border:0;border-radius:9px;background:transparent;color:var(--mut);cursor:pointer;padding:0;margin:0}
+.tg:hover{background:rgba(255,255,255,.07);color:var(--ink)}.tg svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.shell.collapsed .side{width:var(--sr);flex-basis:var(--sr)}
+.shell.collapsed .brand b,.shell.collapsed .brand small,.shell.collapsed .ng,.shell.collapsed .ni span,.shell.collapsed .ni .bd{display:none}
+.shell.collapsed .brand{padding:14px 0 10px;justify-content:center;flex-direction:column;height:auto;gap:8px}.shell.collapsed .brand .tg{margin:0}
+.shell.collapsed .ni{justify-content:center;padding:10px 0}.shell.collapsed .ni .dt{position:absolute;top:7px;right:12px;margin:0}
+.shell.collapsed .ng{display:block;height:1px;margin:10px 12px;padding:0;background:var(--line);font-size:0}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:12px 24px;background:rgba(11,13,20,.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);min-height:60px}
+.top .hm{display:none}.top .ttl{min-width:0}.top .ttl small{display:block;color:var(--mut);font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.top .sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:99px;border:1px solid var(--line2);background:var(--surf);color:var(--ink);font-size:.8rem;font-weight:600;cursor:pointer;margin:0}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--mut)}.pill.g i{background:var(--ok)}.pill.r i{background:var(--err)}
+main#app{width:100%;max-width:1120px;padding:22px 24px 90px;margin:0 auto}
+.scrim{display:none}
+/* ---------- content ---------- */
+.card{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:0 0 16px}
+.card>h2{display:flex;align-items:center;gap:8px}.card .sub{color:var(--mut);margin:-.2rem 0 .8rem;font-size:.88rem}
+input,textarea,select{display:block;width:100%;margin:6px 0;padding:9px 12px;border-radius:9px;border:1px solid var(--line2);background:#0e1119;color:inherit;font:inherit;text-align:left}
+input[type=checkbox]{width:auto;display:inline-block;margin:0}
+textarea{resize:vertical;font-family:inherit}select option{background:#0e1119}
+input:focus,textarea:focus,select:focus,button:focus-visible,.ni:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+button,.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:auto;margin:4px 8px 4px 0;padding:8px 15px;border-radius:9px;border:1px solid var(--line2);background:var(--surf2);color:var(--ink);font:inherit;font-weight:600;text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s}
+button:hover,.btn:hover{background:#212840;border-color:#3a4562}
+button.p,.btn.p{background:var(--blue);border-color:var(--blue);color:#06111f}button.p:hover{background:#8bbcff}
+button.sm{padding:5px 11px;font-size:.84rem;margin:0 6px 0 0;border-radius:8px}
+button:disabled{opacity:.5;cursor:not-allowed}
+label{display:block;color:var(--mut);font-size:.84rem;margin-top:12px}label input,label textarea,label select{color:var(--ink);margin-top:5px}
+label.chk{display:flex;gap:9px;align-items:center;color:var(--ink);font-size:.92rem}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 16px}
+.scroll{overflow-x:auto;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);margin:0 0 16px}.card .scroll{border:0;background:none;margin:0}
+table{border-collapse:collapse;width:100%;font-size:.87rem}th{color:var(--mut);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;background:rgba(255,255,255,.02)}
+th,td{padding:10px 14px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}tbody tr:last-child td{border-bottom:0}tbody tr:hover td{background:rgba(255,255,255,.025)}
+.s-requested{color:var(--warn)}.s-approved{color:var(--blue)}.s-activated,.s-new{color:var(--ok)}.s-rejected,.s-revoked,.s-revoking{color:var(--err)}.s-used{color:var(--mut)}
+img.th{height:44px;width:120px;object-fit:cover;border-radius:8px}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;background:#0e1119;border:1px solid var(--line2);padding:11px 18px;border-radius:11px;z-index:99;box-shadow:0 8px 30px #0008;max-width:90vw}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}.kpi{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px}.kpi b{display:block;font:700 1.55rem ui-monospace,Menlo,Consolas,monospace;color:var(--ink);letter-spacing:-.02em}.kpi span{color:var(--mut);font-size:.8rem}
+.codes{font:14px/1.7 ui-monospace,Menlo,Consolas,monospace;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:10px;padding:12px;max-height:240px;overflow:auto;white-space:pre-wrap}
+pre.slip{font:12.5px/1.55 ui-monospace,Menlo,Consolas,monospace;background:#fff;color:#000;border:1px dashed #999;border-radius:6px;padding:10px 12px;margin:0 0 16px;white-space:pre;page-break-after:always;break-after:page}pre.slip:last-child{page-break-after:auto;break-after:auto}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.fab{position:fixed;right:18px;bottom:18px;width:52px;height:52px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;font-size:24px;text-decoration:none;box-shadow:0 3px 14px #000a;z-index:15}
+/* ---------- login ---------- */
+.lg{min-height:100vh;display:grid;place-items:center;padding:20px}.lg .card{width:100%;max-width:400px;padding:28px}.lg .logo{margin-bottom:14px;width:44px;height:44px}
+/* ---------- router page ---------- */
+.hero{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.big{display:flex;align-items:center;gap:12px;font-size:1.15rem;font-weight:700}.big i{width:14px;height:14px;border-radius:50%;background:var(--mut);box-shadow:0 0 0 5px rgba(139,148,174,.15)}
+.big.g i{background:var(--ok);box-shadow:0 0 0 5px rgba(74,222,128,.16);animation:pl 2s infinite}.big.r i{background:var(--err);box-shadow:0 0 0 5px rgba(255,123,114,.16)}
+@keyframes pl{50%{box-shadow:0 0 0 9px rgba(74,222,128,.04)}}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px;width:100%}
+.fact{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}.fact span{display:block;color:var(--mut);font-size:.74rem;text-transform:uppercase;letter-spacing:.06em}.fact b{display:block;font-size:.95rem;word-break:break-word}
+.step{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--line)}.step:first-of-type{border-top:0;padding-top:4px}
+.num{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem;background:var(--surf2);border:1px solid var(--line2);color:var(--mut)}
+.step.cur .num{background:var(--blue);border-color:var(--blue);color:#06111f}.step.done .num{background:rgba(74,222,128,.15);border-color:rgba(74,222,128,.5);color:var(--ok)}
+.step h3{margin:.2rem 0 .3rem;font-size:.98rem;color:var(--ink);text-transform:none;letter-spacing:0}
+.cmd{font:12.5px/1.6 ui-monospace,Menlo,Consolas,monospace;background:#080a10;border:1px solid var(--line2);border-radius:10px;padding:12px 14px;word-break:break-all;color:#cfe0ff;margin:8px 0}
+.chk-l{list-style:none;margin:0;padding:0}.chk-l li{display:flex;gap:10px;padding:9px 0;border-top:1px solid var(--line)}.chk-l li:first-child{border-top:0}
+.chk-l .ic{flex:0 0 22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:.78rem;font-weight:800}
+.ic.y{background:rgba(74,222,128,.16);color:var(--ok)}.ic.n{background:rgba(255,123,114,.16);color:var(--err)}.ic.w{background:rgba(251,191,36,.16);color:var(--warn)}
+.chk-l small{display:block;color:var(--mut)}.chk-l .fx{color:var(--warn);font-size:.85rem}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.chip{font:12px ui-monospace,Menlo,Consolas,monospace;background:var(--bg);border:1px solid var(--line2);border-radius:99px;padding:3px 10px;color:var(--mut)}
+.callout{border:1px solid var(--line2);border-left:3px solid var(--blue);background:rgba(106,168,255,.06);border-radius:10px;padding:10px 14px;margin:10px 0;font-size:.88rem}.callout.w{border-left-color:var(--warn);background:rgba(251,191,36,.06)}
+.log{font:12px/1.7 ui-monospace,Menlo,Consolas,monospace;max-height:260px;overflow:auto;background:#080a10;border:1px solid var(--line);border-radius:10px;padding:10px 12px}.log div{white-space:pre-wrap;word-break:break-all}
+/* ---------- small screens ---------- */
+@media(max-width:860px){
+ .side{position:fixed;left:0;top:0;bottom:0;width:var(--sw)!important;flex:none;transform:translateX(-100%);transition:transform .22s ease;box-shadow:none}
+ .shell.open .side{transform:none;box-shadow:12px 0 40px #000b}
+ .shell.open .scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:25}
+ .top{padding:10px 14px}.top .hm{display:grid}main#app{padding:16px 14px 90px}
+ .shell.collapsed .brand b,.shell.collapsed .brand small{display:block}.shell.collapsed .ni span{display:inline}.shell.collapsed .ni .bd{display:inline}
+ .shell.collapsed .brand{flex-direction:row;padding:14px 14px 10px;height:60px}.shell.collapsed .ni{justify-content:flex-start;padding:9px 10px}
+ .shell.collapsed .ng{height:auto;margin:14px 0 4px;padding:0 10px;background:none;font-size:.68rem}
+ .brand .tg.dk{display:none}.pill span{display:none}.pill{padding:8px}.top button,.pill{white-space:nowrap}
+}
+@media print{body{background:#fff;color:#000}.noprint{display:none!important}.card{border:0;background:none;padding:0}.codes{border:0;color:#000;background:#fff}.main{display:block}}
+
+/* consistency fixes */
+.side nav .ni{display:flex!important;width:100%!important;justify-content:flex-start!important;text-align:left!important;margin:1px 0!important;padding:9px 10px!important;border:0!important;background:transparent}
+.side nav .ni:hover{background:rgba(255,255,255,.05)}.side nav .ni.on{background:rgba(106,168,255,.14)}
+.shell.collapsed .side nav .ni{justify-content:center!important;padding:10px 0!important}
+.brand>div{min-width:0}.brand b,.brand small{display:block!important}
+@media(max-width:800px){.top{flex-wrap:wrap;gap:8px}.top h1{font-size:1.05rem}.top .sub,#sub{font-size:.8rem}}
+</style></head><body>
+<div id="login" class="lg" hidden></div>
+<div id="shell" class="shell" hidden>
+ <aside class="side noprint" id="side" aria-label="Main navigation"></aside>
+ <div class="scrim noprint" id="scrim"></div>
+ <div class="main">
+  <header class="top noprint"><button class="tg hm" id="hm" aria-label="Open menu"></button><div class="ttl"><h1 id="ttl"></h1><small id="sub"></small></div><div class="sp"></div><button class="pill" id="rpill" title="Open router setup"><i></i><span></span></button><button id="so" class="sm">Sign out</button></header>
+  <main id="app"></main>
+ </div>
+</div>
+<div id="toast" hidden></div><a class="fab noprint" id="fab" hidden aria-label="WhatsApp support" target="_blank" rel="noopener">&#128172;</a>
+<script>
+var API="/api",T=null,D=null,ed=null,made=null,pollT=null,tickT=null;
+var tab=(location.hash||"#dash").slice(1);
+try{var _s=JSON.parse(localStorage.getItem("sx_session")||"null");if(_s&&_s.user&&_s.user.role==="admin")T=_s.token}catch(e){}
+var q=function(s){return document.querySelector(s)};
+function h(t,a){var e=document.createElement(t),c=[].slice.call(arguments,2);a=a||{};for(var k in a){if(k==="on"){for(var v in a.on)e.addEventListener(v,a.on[v])}else if(k in e)e[k]=a[k];else e.setAttribute(k,a[k])}
+ c.reduce(function(x,y){return x.concat(y)},[]).forEach(function(x){if(x!=null&&x!==false)e.append(x)});return e}
+function api(action,data,get){var o=get?{}:{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(Object.assign({action:action,token:T},data||{}))};
+ return fetch(get?API+"?action="+action:API,o).then(function(r){return r.json()}).then(function(r){if(r.error==="unauthorized")out();return r}).catch(function(e){return{ok:false,error:"network",message:"Cannot reach the server. Check your internet connection, then try again."}})}
+function flash(m,bad){var t=q("#toast");t.textContent=m;t.className=bad?"err":"ok";t.hidden=false;clearTimeout(flash.t);flash.t=setTimeout(function(){t.hidden=true},3500)}
+function setFab(n){n=String(n||"").replace(/\D/g,"");if(n){q("#fab").href="https://wa.me/"+n;q("#fab").hidden=false}}
+function btn(t,f,p){return h("button",{className:p?"p sm":"sm",on:{click:f}},t)}
+function money(n){return "₦"+Number(n||0).toLocaleString()}
+function copy(txt,msg){var done=function(){flash(msg||"Copied")};
+ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done,function(){fb()});else fb();
+ function fb(){var t=h("textarea",{value:txt,style:"position:fixed;opacity:0"});document.body.append(t);t.select();try{document.execCommand("copy");done()}catch(e){flash("Copy failed - select the text and copy it manually",1)}t.remove()}}
+async function act(a,d){var r=await api(a,d);if(!r.ok){flash(r.message||("Failed: "+(r.error||"unknown")),1);return null}flash("Saved");ed=null;await load();return r}
+async function load(){var r=await api("adminGetAll");if(r.ok){D=r;setFab(D.settings.whatsapp_phone);render()}else if(r.error!=="unauthorized")flash(r.message||("Could not load: "+r.error),1)}
+function out(){var t=T;T=null;D=null;try{localStorage.removeItem("sx_session");sessionStorage.removeItem("sxt")}catch(e){}if(t)fetch(API,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({action:"signOut",token:t})}).catch(function(){});render()}
+function go(t){tab=t;ed=null;try{history.replaceState(null,"","#"+t)}catch(e){location.hash=t}q("#shell").classList.remove("open");render();window.scrollTo(0,0)}
+
+// ---------------- sign in ----------------
+function loginView(){var em=h("input",{type:"email",placeholder:"Admin email",autocomplete:"username"}),otp=h("input",{inputMode:"numeric",maxLength:4,placeholder:"4-digit code",hidden:true}),m=h("p",{className:"muted"}),b=h("button",{className:"p",style:"width:100%;margin:8px 0 0"},"Send code");
+ b.onclick=async function(){m.className="muted";
+  if(otp.hidden){m.textContent="Sending…";var r=await api("sendOtp",{email:em.value});if(r.ok){otp.hidden=false;em.disabled=true;b.textContent="Verify code";m.textContent="If this email is an admin, a code was sent. It lasts 5 minutes.";otp.focus()}else{m.className="err";m.textContent=r.message||(r.error==="too_many_attempts"?"Too many codes requested. Wait 15 minutes, then try again.":r.error==="network"?"Cannot reach the server - check your internet connection.":"Could not send the code ("+(r.error||"unknown")+") - try again.")}}
+  else{var r2=await api("verifyOtp",{email:em.value,otp:otp.value});if(r2.ok){T=r2.token;try{sessionStorage.setItem("sxt",T)}catch(e){}load()}else{m.className="err";m.textContent=r2.message||"Wrong or expired code. Reload this page to request a new one."}}};
+ return h("div",{className:"card"},h("div",{className:"logo"},"C"),h("h2",{style:"font-size:1.2rem"},"Admin sign in"),h("p",{className:"muted"},"Enter your admin email to receive a one-time code."),em,otp,b,m)}
+
+// ---------------- navigation ----------------
+var IC={dash:"M3 12l9-8 9 8M5 10v10h5v-6h4v6h5V10",sessions:"M17 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M10 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8M21 20v-2a4 4 0 0 0-3-3.9M16 2.1a4 4 0 0 1 0 7.8",
+ router:"M4 14h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1zM7 17.5h.01M11 17.5h.01M8 10a6 6 0 0 1 8 0M5.5 7a10 10 0 0 1 13 0",
+ wifi:"M2 9a15 15 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16a5 5 0 0 1 6 0M12 19.5h.01",wl:"M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5zM9 12l2 2 4-4",
+ customers:"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8",
+ orders:"M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0",vouchers:"M3 9a2 2 0 0 0 0 6v3a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-3a2 2 0 0 1 0-6V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1zM13 5v14",
+ plans:"M4 6h16M4 12h16M4 18h10",stock:"M21 8l-9-5-9 5 9 5zM3 8v8l9 5 9-5V8M12 13v8",gateways:"M2 7h20v12H2zM2 11h20M6 16h3",settings:"M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6",
+ banners:"M3 5h18v14H3zM3 15l5-5 4 4 3-3 6 6M8.5 9.5h.01",log:"M12 8v4l3 2M21 12a9 9 0 1 1-3-6.7M21 4v5h-5",menu:"M4 6h16M4 12h16M4 18h16",panel:"M3 4h18v16H3zM9 4v16",out:"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"};
+var svg=function(k){var s=document.createElementNS("http://www.w3.org/2000/svg","svg");s.setAttribute("viewBox","0 0 24 24");var p=document.createElementNS("http://www.w3.org/2000/svg","path");p.setAttribute("d",IC[k]||"");s.append(p);return s};
+var NAV=[["Overview",[["dash","Dashboard","Live numbers and customer follow-up list"],["sessions","Active users","Everyone logged into the hotspot right now"]]],
+ ["Network",[["router","Router setup","Connect your MikroTik, check the sync and fix problems"],["wifi","WiFi","Connected devices, network name, password and channel"],["wl","Whitelist","Devices that skip the login page"]]],
+ ["Sales",[["orders","Orders","Approve bank transfers and manage customer access"],["customers","Customers","People with an account, and whether an account is needed to buy"],["vouchers","Vouchers","Generate, print and track voucher PINs"],["plans","Plans","Prices, speeds and validity"],["stock","Code stock","Pre-bought codes sold through the buy-code page"]]],
+ ["Settings",[["gateways","Payments","Paystack, Flutterwave, webhooks and SMS"],["settings","Branding and bank","Site name, logo, support numbers, bank details"],["banners","Banners","Images shown on the login page"]]],
+ ["System",[["log","Activity log","Every admin action and automatic approval"]]]],P={};
+var META={};NAV.forEach(function(g){g[1].forEach(function(i){META[i[0]]=i})});
+function sideCollapsed(){try{return localStorage.getItem("sxside")==="1"}catch(e){return false}}
+function drawSide(){var s=q("#side");s.textContent="";var st=D.stats||{};
+ var tgl=h("button",{className:"tg dk",title:"Collapse or expand the menu","aria-label":"Collapse or expand the menu",on:{click:function(){var c=q("#shell").classList.toggle("collapsed");try{localStorage.setItem("sxside",c?"1":"0")}catch(e){}}}},svg("panel"));
+ s.append(h("div",{className:"brand"},h("div",{className:"logo"},((D.settings.site_name||"C")+"").charAt(0).toUpperCase()),h("div",{},h("b",{},D.settings.site_name||"CessproNet"),h("small",{},"Admin console")),tgl));
+ var nav=h("nav",{});
+ NAV.forEach(function(g){var items=g[1];if(!items.length)return;
+  nav.append(h("div",{className:"ng"},g[0]));
+  items.forEach(function(i){var id=i[0],on=id===tab,kids=[svg(id),h("span",{},i[1])];
+   if(id==="orders"&&st.pending)kids.push(h("em",{className:"bd",style:"font-style:normal"},String(st.pending)));
+   if(id==="router")kids.push(h("em",{className:"dt "+(st.router_online?"g":"r")}));
+   var el=h("button",{className:"ni"+(on?" on":""),title:i[1],on:{click:function(){go(id)}}},kids);
+   el.style.margin="1px 0";nav.append(el)})});
+ s.append(nav)}
+function render(){clearInterval(pollT);clearInterval(tickT);pollT=tickT=null;
+ var lg=q("#login"),sh=q("#shell");
+ if(!T){location.replace("/signin.html?next="+encodeURIComponent("/admin.html"+location.hash));return}
+ lg.hidden=true;sh.hidden=false;
+ sh.classList.toggle("collapsed",sideCollapsed());
+ var app=q("#app");app.textContent="";
+ if(!D){app.append(h("p",{className:"muted"},"Loading…"));return}
+ if(!META[tab])tab="dash";
+ drawSide();var m=META[tab]||META.dash;q("#ttl").textContent=m[1];q("#sub").textContent=m[2];document.title=m[1]+" · "+(D.settings.site_name||"CessproNet")+" admin";
+ var on=!!(D.stats&&D.stats.router_online),rp=q("#rpill");rp.className="pill "+(on?"g":"r");rp.lastChild.textContent=on?"Router online":"Router offline";
+ app.append(P[tab]())}
+function table(head,rows){return h("div",{className:"scroll"},h("table",{},h("thead",{},h("tr",{},head.map(function(x){return h("th",{},x)}))),h("tbody",{},rows)))}
+function sel(opts,val){return h("select",{},opts.map(function(o){return h("option",{value:o[0],selected:o[0]===val},o[1])}))}
+// ---------------- Dashboard ----------------
+P.dash=function(){var s=D.stats||{},box=h("div",{});
+ var kpi=function(v,l){return h("div",{className:"kpi"},h("b",{},String(v)),h("span",{},l))};
+ box.append(h("div",{className:"kpis"},
+   kpi(s.pending||0,"Orders awaiting approval"),kpi(s.awaiting_router||0,"Approved, not yet on router"),
+   kpi(s.active||0,"Activated"),kpi(s.sessions||0,"Online right now"),kpi(s.vouchers_unused||0,"Unused vouchers"),
+   kpi(money(s.revenue_today),"Paid today"),kpi(money(s.revenue_week),"Paid this week"),kpi(money(s.revenue_month),"Paid this month")));
+ var on=!!s.router_online;
+ box.append(h("div",{className:"card"},h("h2",{},"Router link"),
+  h("p",{className:on?"ok":"err"},h("span",{className:"dot",style:"background:"+(on?"#7fd6a4":"#ff9b8f")}),
+   on?"Router is syncing normally.":"The router has not synced recently. Approved orders will not activate."),
+  h("p",{className:"muted"},"Last sync: "+(s.router_last_seen?String(s.router_last_seen).slice(0,19).replace("T"," ")+" UTC":"never")),
+  s.router_token_bad?h("p",{className:"err"},"ROUTER_TOKEN looks wrong (too short, or it is the AKfy… deployment ID). Set a new one with: npx wrangler secret put ROUTER_TOKEN, deploy, then run the install command from Router setup again."):null,
+  s.salt_bad?h("p",{className:"err"},"OTP_SALT is too short. Set a longer one with: npx wrangler secret put OTP_SALT"):null,
+  btn("Router setup",function(){go("router")},1),btn("Run full check",async function(){var r=await api("adminDiag");if(!r.ok){flash(r.error,1);return}
+   var c=h("div",{className:"card"},h("h2",{},"Health check"),r.checks.map(function(x){return h("p",{className:x.ok?"ok":"err"},(x.ok?"\u2713 ":"\u2717 ")+x.name+(x.note&&!x.ok?" — "+x.note:""))}));
+   box.append(c)},1)));
+ var sbx=h("p",{className:"muted"}),cb=D.sms_balance;
+ function fmtU(n){return Number(n).toLocaleString(undefined,{maximumFractionDigits:2})+" unit(s) left \u2014 about "+Math.floor(Number(n))+" SMS page(s)"}
+ if(cb&&cb.units!=null){sbx.className=cb.units<50?"warn":"ok";sbx.textContent=fmtU(cb.units)+" (checked "+String(cb.at).slice(0,19).replace("T"," ")+" UTC)"}
+ else sbx.textContent="Not checked yet.";
+ var chk=function(){sbx.className="muted";sbx.textContent="Contacting SmartSMS…";api("adminSmsBalance").then(function(r){
+  if(!r.ok){sbx.className="err";sbx.textContent=r.message||(r.error==="sms_not_configured"?"No SMS token saved yet. Add it in Payments \u2192 SMS notifications, then refresh.":"Could not read the balance ("+(r.error||"unknown")+") - check the token in Payments.");return}
+  sbx.className=r.units<50?"warn":"ok";sbx.textContent=fmtU(r.units)+" (checked "+String(r.at).slice(11,19)+" UTC)";if(r.units<50)sbx.textContent+=" \u2014 LOW: top up at app.smartsmssolutions.com"}).catch(function(){sbx.className="err";sbx.textContent="Network error while checking balance."})};
+ if(!cb)chk();
+ box.append(h("div",{className:"card"},h("h2",{},"SMS wallet (SmartSMS Solutions)"),sbx,
+  btn("Refresh balance",chk,1),h("p",{className:"muted"},"Prepaid SMS units. Every bank-details request, customer notification and test SMS spends units from this wallet.")));
+ var stuck=(D.orders||[]).filter(function(o){return o.status==="approved"&&Date.now()-new Date(o.created_at)>600000});
+ if(stuck.length)box.append(h("div",{className:"card"},h("p",{className:"warn"},stuck.length+" order(s) have been approved for over 10 minutes without the router picking them up. That is a router token or scheduler problem.")));
+ var cust={};
+ (D.orders||[]).forEach(function(o){var ph=null;
+  if(/^0[789][01]\d{8}$/.test(o.identifier||""))ph=o.identifier;
+  else if(/^0[789][01]\d{8}$/.test(o.phone||""))ph=o.phone;
+  else if(o.sms_phone){var d=String(o.sms_phone).replace(/\D/g,"");ph=(d.length===13&&d.startsWith("234"))?"0"+d.slice(3):(d.length===11?d:null)}
+  if(!ph)return;var c=cust[ph]||(cust[ph]={ph:ph,n:0,paid:0,total:0,last:""});
+  c.n++;if(o.paid_at){c.paid++;c.total+=Number(o.amount_paid||0)}
+  if((o.created_at||"")>c.last)c.last=o.created_at});
+ var cl=Object.keys(cust).map(function(k){return cust[k]}).sort(function(a,b){return a.last<b.last?1:-1}).slice(0,60);
+ box.append(h("div",{className:"card"},h("h2",{},"Customers by phone (follow-up list)"),
+  h("p",{className:"muted"},"Every order tied to a phone number - call or SMS these customers for renewals and win-backs. Phone-number logins land here automatically."),
+  cl.length?table(["Phone","Orders","Paid","Total spent","Last order"],cl.map(function(c){return h("tr",{},
+   h("td",{},h("a",{href:"tel:"+c.ph},c.ph)),h("td",{},String(c.n)),h("td",{},String(c.paid)),h("td",{},money(c.total)),
+   h("td",{},String(c.last).slice(0,10)))})):h("p",{className:"muted"},"No phone-linked orders yet.")));
+ return box};
+
+// ---------------- Active users ----------------
+P.sessions=function(){var ss=D.sessions||[];
+ var kind=function(u){if(!u)return"";
+  var v=(D.vouchers||[]).filter(function(x){return x.code===u})[0];if(v)return"voucher "+v.code+" ("+v.status+")";
+  var o=(D.orders||[]).filter(function(x){return x.identifier===u})[0];if(o)return"order "+o.order_id+" ("+o.status+")";
+  return"account/device"};
+ var row=function(x){return h("tr",{},
+  h("td",{},x.user),
+  h("td",{},x.mac||"-"),
+  h("td",{},String(x.at||"").slice(11,19)),
+  h("td",{},kind(x.user)),
+  h("td",{},btn("Force logout",function(){if(confirm("Disconnect "+x.user+" now?"))act("adminLogout",{user:x.user})})))};
+ return h("div",{},h("p",{className:"muted"},"Everyone logged into the hotspot right now, as reported by the router every sync (about 25 seconds). Force logout disconnects the session at the next sync; the customer can log in again while their plan or voucher is still valid."),
+  ss.length?table(["User","MAC","Since (UTC)","Type",""],ss.map(row)):h("p",{className:"muted"},"Nobody is online right now."))};
+
+// ---------------- WiFi ----------------
+P.wifi=function(){var wc=D.wifi_clients||{},info=D.wifi_info||{},sess=D.sessions||[];
+ var logged={};sess.forEach(function(s){if(s.mac)logged[s.mac]=s.user});
+ var st=(wc.stations||[]).filter(function(x){return x.mac&&!logged[x.mac]});
+ var ls=(wc.leases||[]).filter(function(x){return x.mac&&!logged[x.mac]});
+ var f={ssid:h("input",{value:info.ssid||"",maxLength:32,placeholder:"Network name (SSID)"}),
+  psk:h("input",{type:"password",autocomplete:"new-password",placeholder:"New WPA2 password (8-63 chars). Leave blank to keep the current one"}),
+  freq:h("input",{type:"number",value:info.freq||2437,min:2412,max:2484,step:1})};
+ var ch=function(mhz){var c=Math.round((mhz-2407)/5);return c>=1&&c<=14?("channel "+c):""};
+ return h("div",{},
+  h("div",{className:"card"},h("h2",{},"Connected clients (live from the router)"),
+   h("p",{className:"muted"},"Refreshed every sync (about 25 s). \u201CNot logged in\u201D means the device is on the WiFi or has an IP but has not passed the login page yet \u2014 typically someone standing on the captive portal."),
+   h("h3",{},"Logged in ("+sess.length+")"),
+   sess.length?table(["User","MAC","Since (UTC)"],sess.map(function(x){return h("tr",{},h("td",{},x.user),h("td",{},x.mac||"-"),h("td",{},String(x.at||"").slice(11,19)))})):h("p",{className:"muted"},"Nobody logged in."),
+   h("h3",{},"On the WiFi, NOT logged in ("+st.length+")"),
+   st.length?table(["MAC","Signal","Associated for"],st.map(function(x){return h("tr",{},h("td",{},x.mac),h("td",{},x.signal||"-"),h("td",{},x.uptime||"-"))})):h("p",{className:"muted"},"No unauthenticated stations associated right now."),
+   h("h3",{},"Holding an IP, NOT logged in ("+ls.length+")"),
+   ls.length?table(["MAC","IP address","Device name"],ls.map(function(x){return h("tr",{},h("td",{},x.mac),h("td",{},x.ip||"-"),h("td",{},x.host||"-"))})):h("p",{className:"muted"},"No unauthenticated DHCP leases right now.")),
+  h("div",{className:"card"},h("h2",{},"WiFi details"),
+   h("p",{className:"muted"},"Current on the router: "+(info.ssid||"unknown")+" @ "+(info.freq||"?")+" MHz "+(ch(info.freq)?"("+ch(info.freq)+")":"")+" \u00B7 WPA2 password: "+(info.psk?"set":"NOT set")+". Changes are applied by the router at the next sync (about 25 s). Changing the channel or password disconnects everyone briefly \u2014 they rejoin with the new details."),
+   h("label",{},"Network name (SSID, max 32 chars)",f.ssid),
+   h("label",{},"WPA2 password",f.psk),
+   h("label",{},"Frequency (MHz, 2412-2484 = channels 1-14)",f.freq),
+   btn("Save WiFi details",function(){var ssid=f.ssid.value.trim();
+    if(!ssid){flash("SSID cannot be empty",1);return}
+    if(f.psk.value&&(f.psk.value.length<8||f.psk.value.length>63)){flash("Password must be 8-63 characters",1);return}
+    act("adminWifiSet",{ssid:ssid,psk:f.psk.value,frequency:Number(f.freq.value)})},1),
+   h("p",{className:"muted"},"The password travels to the router inside the token-protected sync queue and is deleted from it as soon as the router applies it (about 25 s); audit logs record only \u201Cpsk=changed\u201D, never the value.")))};
+
+// ---------------- Orders ----------------
+P.orders=function(){var setO=function(o,s){act("updateOrder",{order_id:o.order_id,status:s})};
+ var f=h("input",{placeholder:"Filter by order ID, username, MAC or phone"}),wrap=h("div",{});
+ var draw=function(){wrap.textContent="";var t=f.value.trim().toLowerCase();
+  var rows=D.orders.filter(function(o){return !t||[o.order_id,o.identifier,o.phone,o.plan_id,o.status].join(" ").toLowerCase().indexOf(t)>=0});
+  wrap.append(rows.length?table(["Date","Order","For","Type","Plan","Paid via","Phone","Status",""],rows.map(function(o){return h("tr",{},
+   h("td",{},String(o.created_at).slice(0,16).replace("T"," ")),h("td",{},o.order_id),h("td",{},o.identifier),h("td",{},o.id_type),h("td",{},o.plan_id),
+   h("td",{},o.paid_via||"bank"),h("td",{},h("a",{href:"tel:"+o.phone,style:"color:var(--blue)"},o.phone)),h("td",{className:"s-"+o.status},o.status+(o.paid_via==="trial"?" \u{1F381}":"")),
+   h("td",{},o.status==="requested"?[btn("Approve",function(){setO(o,"approved")},1),btn("Reject",function(){setO(o,"rejected")})]:
+     (o.status==="approved"||o.status==="activated")?btn("Revoke",function(){if(confirm("Remove "+o.identifier+" from the router?"))act("revokeAccess",{order_id:o.order_id})}):null))})):h("p",{className:"muted"},"Nothing matches."))};
+ f.oninput=draw;draw();
+ return h("div",{},h("p",{className:"muted"},"Approve an order after the bank transfer arrives. Online payments approve themselves. The router activates approved orders within about a minute."),
+  h("div",{className:"bar"},btn("Refresh",load),btn("Approve all pending",async function(){if(!confirm("Approve every order currently waiting?"))return;var r=await act("bulkOrders",{status:"approved"});if(r)flash("Approved "+r.count)},1)),f,wrap)};
+
+// ---------------- Vouchers ----------------
+var SLIP_DEF="========================================\n        CESSPRONET WIFI DATA          \n      High-Speed Interne      \n========================================\nBatch:              {batch}\n\nVoucher Pin:        {pin}\n\nAllocated Data/Time : {data_time}\nRate / Price        : \u20A6{price}\nStatus              : {status}\n\n----------------------------------------\n* Enter login details on the browser page.\n* Timer starts upon first login.\n* Unused time is non-refundable.\n========================================";
+P.vouchers=function(){var plans=D.plans.filter(function(p){return p.active}),
+ ps=sel(plans.map(function(p){return [p.plan_id,p.name+" — "+money(p.price)]}),plans[0]&&plans[0].plan_id),
+ cnt=h("input",{type:"number",value:10,min:1,max:200}),outbox=h("div",{});
+ var slipText=function(v){var plan=D.plans.filter(function(p){return p.plan_id===v.plan_id})[0];
+  var map={"{batch}":v.batch||"","{pin}":v.code,"{plan}":plan?plan.name:"","{validity}":plan?plan.validity:"","{rate}":plan?plan.rate_limit:"","{data_time}":(plan?plan.validity:"")+" \u00B7 "+(plan?plan.rate_limit:""),"{price}":plan?plan.price:"","{status}":v.status==="new"?"Active":(String(v.status).charAt(0).toUpperCase()+String(v.status).slice(1)),"{site}":D.settings.site_name||""};
+  return String(D.settings.voucher_slip_template||SLIP_DEF).replace(/\{batch\}|\{pin\}|\{plan\}|\{validity\}|\{rate\}|\{data_time\}|\{price\}|\{status\}|\{site\}/g,function(m){return map[m]!=null?map[m]:m})};
+ var showSlips=function(list,title,extra){outbox.textContent="";if(!list.length){flash("No vouchers match that filter",1);return}
+  outbox.append(h("div",{className:"card"},h("h2",{},list.length+" slip(s) \u2014 "+title),
+   h("p",{className:"muted noprint"},"Preview below. Printing puts one slip per page \u2014 cut along the dashed lines."),
+   h("div",{},list.map(function(v){return h("pre",{className:"slip"},slipText(v))})),
+   h("div",{className:"noprint"},(extra||[]).concat([btn("Print",function(){window.print()},1),btn("Done",function(){outbox.textContent=""})]))))};
+ var draw=function(){if(!made)return;
+  var txt=made.codes.map(function(c){return c+"   "+made.plan+"   "+money(made.price)}).join("\n");
+  showSlips(made.codes.map(function(c){return{code:c,batch:made.batch,status:"new",plan_id:made.plan_id}}),made.plan,
+   [btn("Copy all",function(){navigator.clipboard.writeText(txt).then(function(){flash("Copied")},function(){flash("Copy failed",1)})}),
+    btn("Download CSV",function(){var csv="code,plan,price\n"+made.codes.map(function(c){return c+","+made.plan+","+made.price}).join("\n");
+     var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download=made.batch+".csv";a.click()})])};
+ draw();
+ var list=D.vouchers||[],batches=[];list.forEach(function(v){if(v.batch&&batches.indexOf(v.batch)<0)batches.push(v.batch)});
+ var bs=sel(batches.length?batches.map(function(b){return[b,b]}):[["","(no batches yet)"]],batches[0]),
+  stsel=sel([["new","Unused (new) only"],["all","All statuses"],["used","Used only"],["deleted","Deleted only"]],"new"),
+  tplBox=h("textarea",{rows:11},D.settings.voucher_slip_template||SLIP_DEF);
+ var vfs=sel([["all","All vouchers"],["new","Unused"],["active","Used but still within validity"],["exhausted","Exhausted (used, validity over)"],["online","Online right now"],["deleted","Deleted"]],"all"),
+  histBox=h("div",{}),vwrap=h("div",{});
+ var online={};(D.sessions||[]).forEach(function(s){online[s.user]=1});
+ var state=function(v){if(v.status==="used")return(v.expires_at&&v.expires_at<=new Date().toISOString())?"exhausted":"active";
+  if(v.status==="expired")return"exhausted";return v.status};
+ var showHist=function(code){histBox.textContent="";histBox.append(h("p",{className:"muted"},"Loading history for "+code+"\u2026"));
+  api("adminVoucherHistory",{code:code}).then(function(r){histBox.textContent="";
+   if(!r.ok){histBox.append(h("p",{className:"err"},r.message||("Failed: "+(r.error||"unknown"))));return}
+   histBox.append(h("div",{className:"card"},h("h2",{},"Usage history \u2014 "+code),
+    h("p",{className:r.phone?"ok":"warn"},"Phone on record: "+(r.phone?r.phone:"none captured")),
+    h("h3",{},"Device sessions"),
+    r.sessions.length?table(["MAC","First seen","Last seen"],r.sessions.map(function(s){return h("tr",{},h("td",{},s.mac),h("td",{},String(s.first_seen).slice(0,16).replace("T"," ")),h("td",{},String(s.last_seen).slice(0,16).replace("T"," ")))})):h("p",{className:"muted"},"Never logged in."),
+    h("h3",{},"Events"),
+    r.events.length?table(["When","Event","Detail"],r.events.map(function(e){return h("tr",{},h("td",{},String(e.at).slice(0,16).replace("T"," ")),h("td",{},e.event),h("td",{},e.detail||""))})):h("p",{className:"muted"},"No events."),
+    btn("Close",function(){histBox.textContent=""})))})};
+ var drawList=function(){vwrap.textContent="";var fl=vfs.value;
+  var rows=list.filter(function(v){var st=state(v);
+   if(fl==="all")return true;if(fl==="online")return!!online[v.code];return st===fl});
+  vwrap.append(rows.length?table(["Code","Plan","State","Phone","Used by","First login","Expires","Batch",""],rows.map(function(v){var st=state(v);
+   return h("tr",{},
+    h("td",{},v.code),h("td",{},v.plan_id),
+    h("td",{className:st==="active"?"s-new":st==="exhausted"?"s-revoked":st==="new"?"s-approved":"s-used"},
+     (st==="new"?"Unused":st==="active"?"Used \u00B7 active window":st==="exhausted"?"Exhausted":st==="deleted"?"Deleted":st)+(online[v.code]?" \u00B7 ONLINE":"")),
+    h("td",{},v.phone?h("a",{href:"tel:"+v.phone},v.phone):"-"),h("td",{},v.used_by||"-"),h("td",{},String(v.used_at||"").slice(0,16).replace("T"," ")||"-"),
+    h("td",{},String(v.expires_at||"").slice(0,16).replace("T"," ")||"-"),h("td",{},v.batch||"-"),
+    h("td",{className:"noprint"},btn("History",function(){showHist(v.code)}),
+     v.status!=="deleted"?btn("Delete",function(){if(confirm("Delete voucher "+v.code+"? It stops working after the next sync."))act("updateVoucher",{op:"delete",code:v.code})}):null))})):
+   h("p",{className:"muted"},"No vouchers in this filter."))};
+ vfs.onchange=drawList;drawList();
+ return h("div",{},
+  h("div",{className:"card noprint"},h("h2",{},"Generate vouchers"),
+   h("label",{},"Plan",ps),h("label",{},"How many (1-200)",cnt),
+   btn("Generate",async function(){var r=await api("makeVouchers",{plan_id:ps.value,count:Number(cnt.value)});
+    if(!r.ok){flash(r.message||("Failed: "+r.error),1);return}made=r;flash("Generated "+r.codes.length);await load()},1)),
+  outbox,
+  h("div",{className:"card noprint"},h("h2",{},"Print slips for existing vouchers"),
+   h("p",{className:"muted"},"Pick a batch and a status, preview the slips, then print (one slip per page)."),
+   h("label",{},"Batch",bs),h("label",{},"Status",stsel),
+   btn("Preview & print slips",function(){var b=bs.value,st=stsel.value;
+    var rows=list.filter(function(v){return v.batch===b&&(st==="all"||v.status===st)}).slice(0,200);
+    showSlips(rows,"batch "+b)},1),
+   h("label",{},"Voucher slip template. Tokens: {site} {batch} {pin} {plan} {validity} {rate} {data_time} {price} {status}",tplBox),
+   btn("Save template",function(){act("saveSettings",{settings:{voucher_slip_template:tplBox.value}})},1),
+   btn("Reset to default template",function(){tplBox.value=SLIP_DEF;act("saveSettings",{settings:{voucher_slip_template:SLIP_DEF}})})),
+  h("p",{className:"muted noprint"},"Customers enter a code on the Voucher PIN tab of the login page. Codes work once the router has synced (about a minute). Customers can check a PIN themselves on verify.html (Voucher PIN tab) - devices are masked there."),
+  h("div",{className:"card noprint"},h("h2",{},"Voucher list & usage history"),
+   h("label",{},"Filter",vfs),histBox,vwrap))};
+
+// ---------------- Plans ----------------
+// ---------------- Code stock (manual codes + Paystack sales) ----------------
+function parseCodes(t){return String(t||"").split(/\r?\n/).map(function(l){return l.split(/[,;\t]/)[0].trim().replace(/^["']+|["']+$/g,"")}).filter(function(c){return c&&!/^(code|codes|pin|voucher|serial|username|user)$/i.test(c)})}
+P.stock=function(){var box=h("div",{},h("p",{className:"muted"},"Loading stock\u2026"));
+ var draw=async function(){var r=await api("adminStock");if(!r.ok){box.textContent=r.message||"Could not load stock.";return}
+  var ps=sel(r.plans.map(function(p){return[p.plan_id,p.name+" ("+money(p.price)+")"]}),r.plans[0]&&r.plans[0].plan_id),
+   ta=h("textarea",{rows:6,placeholder:"One code per line, or paste a CSV (first column is used)"}),
+   fl=h("input",{type:"file",accept:".csv,.txt,text/csv,text/plain"}),
+   out=h("div",{}),tot=r.plans.reduce(function(s,p){return s+p.available},0),sold=r.plans.reduce(function(s,p){return s+p.sold},0),
+   link=location.origin+"/buy-code.html";
+  fl.onchange=async function(){var f=fl.files[0];if(f){ta.value=parseCodes(await f.text()).join("\n");flash(parseCodes(ta.value).length+" codes read from file. Press Add codes to save them.")}};
+  var showList=async function(pid,st){var x=await api("adminStockList",{plan_id:pid,status:st});out.textContent="";
+   if(!x.ok){flash(x.message||"Could not load codes",1);return}
+   out.append(h("div",{className:"card"},h("h2",{},(st==="sold"?"Sold":"Available")+" codes: "+pid+" ("+x.codes.length+(x.codes.length===500?"+":"")+")"),
+    x.codes.length?table(["Code","Added","Sold","Batch",""],x.codes.map(function(c){return h("tr",{},h("td",{},c.code),h("td",{},String(c.created_at).slice(0,16).replace("T"," ")),h("td",{},String(c.sold_at||"-").slice(0,16).replace("T"," ")),h("td",{},c.batch||"-"),
+     h("td",{},c.status==="available"?btn("Delete",async function(){if(!confirm("Delete code "+c.code+" from stock?"))return;var d=await api("updateStockCode",{op:"delete",code:c.code});if(d.ok){flash("Deleted");draw()}else flash(d.message||"Failed",1)}):null))})):h("p",{className:"muted"},"Nothing here.")))};
+  box.textContent="";
+  box.append(
+   h("div",{className:"kpis"},h("div",{className:"kpi"},h("b",{},String(tot)),h("span",{},"Codes in stock")),h("div",{className:"kpi"},h("b",{},String(sold)),h("span",{},"Codes sold")),
+    h("div",{className:"kpi"},h("b",{},String(r.plans.filter(function(p){return p.available<5&&p.available+p.sold>0}).length)),h("span",{},"Plans running low (under 5)"))),
+   h("div",{className:"card"},h("h2",{},"Add codes to a plan"),
+    h("p",{className:"muted"},"Create the plan under Plans, then load its codes here at any time. A customer who pays gets one code from this stock. These codes are not sent to the router."),
+    r.plans.length?h("div",{},h("label",{},"Plan",ps),h("label",{},"Paste codes",ta),h("label",{},"Or upload a CSV / TXT file",fl),
+     btn("Add codes",async function(){var cs=parseCodes(ta.value);if(!cs.length){flash("Paste or upload some codes first.",1);return}
+      var x=await api("saveStockCodes",{plan_id:ps.value,codes:cs});if(!x.ok){flash(x.message||"Failed",1);return}
+      ta.value="";fl.value="";flash("Added "+x.added+" codes"+(x.skipped?", skipped "+x.skipped+" already loaded":"")+(x.invalid?", "+x.invalid+" invalid (e.g. "+x.invalid_sample[0]+")":""),x.added?0:1);draw()},1)):
+     h("p",{className:"warn"},"No plans yet. Create a plan first on the Plans tab.")),
+   h("div",{className:"card"},h("h2",{},"Stock by plan"),
+    r.plans.length?table(["Plan","Price","Available","Sold",""],r.plans.map(function(p){return h("tr",{},h("td",{},p.name+(p.active?"":" (inactive)")),h("td",{},money(p.price)),
+     h("td",{className:p.available===0?"s-revoked":p.available<5?"warn":"s-new"},String(p.available)+(p.available===0?" \u00B7 empty":p.available<5?" \u00B7 low":"")),h("td",{},String(p.sold)),
+     h("td",{},btn("View available",function(){showList(p.plan_id,"available")}),btn("View sold",function(){showList(p.plan_id,"sold")})))})):h("p",{className:"muted"},"No plans.")),
+   out,
+   h("div",{className:"card"},h("h2",{},"Recent code sales"),
+    r.recent.length?table(["When","Plan","Code","Buyer","Paid","Reference"],r.recent.map(function(s){return h("tr",{},h("td",{},String(s.sold_at).slice(0,16).replace("T"," ")),h("td",{},s.plan_id),h("td",{},s.code),h("td",{},s.buyer||"-"),h("td",{},money(s.amount)),h("td",{},s.sale_ref||"-"))})):h("p",{className:"muted"},"No sales yet.")),
+   h("div",{className:"card"},h("h2",{},"Customer buy page"),h("p",{className:"muted"},"Share this link. Customers pick a plan, pay with Paystack and see their code straight away. Turn Paystack on under Payments first."),h("div",{className:"codes"},link),btn("Copy link",function(){try{navigator.clipboard.writeText(link);flash("Link copied")}catch(e){flash(link)}})))};
+ draw();return box};
+P.plans=function(){var e=ed||{plan_id:"",name:"",price:"",validity:"1d",rate_limit:"2M/5M",shared_users:1,is_featured_on_login:true,active:true},f={};
+ var F=function(k,l,t){f[k]=h("input",{type:t||"text",value:e[k],disabled:k==="plan_id"&&!!ed});return h("label",{},l,f[k])};
+ var C=function(k,l){f[k]=h("input",{type:"checkbox",checked:!!e[k]});return h("label",{className:"chk"},f[k],l)};
+ return h("div",{},h("div",{className:"card"},h("h2",{},ed?"Edit plan":"New plan"),F("plan_id","Plan ID (letters, digits, underscore)"),F("name","Name"),F("price","Price (NGN)","number"),F("validity","Validity (for example 12h, 1d, 7d, 30d)"),F("rate_limit","Speed limit, upload/download (for example 2M/5M)"),F("shared_users","Devices allowed","number"),C("is_featured_on_login","Highlight on the login page"),C("active","Active"),
+  h("p",{className:"muted"},"Every active plan now appears on the login page. Highlighted plans show first; the rest sit behind \u201CShow all plans\u201D."),
+  btn("Save plan",function(){act("updatePlan",{op:"save",plan:{plan_id:f.plan_id.value.trim(),name:f.name.value.trim(),price:f.price.value,validity:f.validity.value.trim(),rate_limit:f.rate_limit.value.trim(),shared_users:f.shared_users.value,is_featured_on_login:f.is_featured_on_login.checked,active:f.active.checked}})},1),ed?btn("Cancel",function(){ed=null;render()}):null),
+  table(["Plan","Price","Validity","Speed","Devices","Highlighted","Active",""],D.plans.map(function(p){return h("tr",{},h("td",{},p.name+" ("+p.plan_id+")"),h("td",{},money(p.price)),h("td",{},p.validity),h("td",{},p.rate_limit),h("td",{},p.shared_users),h("td",{},p.is_featured_on_login?"Yes":"No"),h("td",{},p.active?"Yes":"No"),
+   h("td",{},btn("Edit",function(){ed=p;render()}),btn("Delete",function(){if(confirm("Delete plan "+p.plan_id+"?"))act("updatePlan",{op:"delete",plan:{plan_id:p.plan_id}})})))})))};
+
+// ---------------- Payments ----------------
+P.gateways=function(){var f={},sf={tk:h("input",{type:"password",autocomplete:"off",value:D.settings.sms_token||"",placeholder:"Paste API-x token"}),sd:h("input",{value:D.settings.sms_sender||"CessproNet"}),fee:h("input",{type:"number",value:D.settings.sms_fee||10,min:0}),bt:h("textarea",{rows:2},D.settings.sms_bank_template||""),tp:h("input",{placeholder:"08031234567"}),wh:h("input",{type:"password",autocomplete:"off",value:D.settings.flw_webhook_hash||"",placeholder:"Webhook secret hash"})};
+ return h("div",{},h("p",{className:"muted"},"Paystack is the main way customers pay. Turn it on, paste your public and secret keys, then press Save. Every payment is checked with Paystack on the server before a plan or code is released. Leave a secret key blank to keep the one already saved."),
+ D.gateways.filter(function(g){return g.gateway!=="monnify"}).sort(function(x,y){return(y.gateway==="paystack")-(x.gateway==="paystack")}).map(function(g){var x=f[g.gateway]={en:h("input",{type:"checkbox",checked:g.enabled}),pk:h("input",{value:g.public_key,placeholder:"Public key"}),sk:h("input",{type:"password",autocomplete:"off",placeholder:g.secret_set?"Secret key saved":"Secret key"})};
+  return h("div",{className:"card"},h("h2",{},g.gateway.charAt(0).toUpperCase()+g.gateway.slice(1)),h("label",{className:"chk"},x.en,"Enabled"),x.pk,x.sk)}),
+ btn("Save gateway keys",function(){var gw={};for(var k in f)gw[k]={enabled:f[k].en.checked,public_key:f[k].pk.value.trim(),secret_key:f[k].sk.value.trim()};act("saveGatewayKeys",{gateways:gw})},1),
+ h("div",{className:"card"},h("h2",{},"Webhooks"),
+  h("p",{className:"muted"},"Add these addresses in your payment dashboard so payments are confirmed even if the customer closes the page."),
+  h("p",{className:"ok"},"Paystack: "+location.origin+"/webhooks/paystack (Settings, then API Keys and Webhooks)"),
+  h("p",{className:"ok"},"Flutterwave: "+location.origin+"/webhooks/flutterwave"),
+  h("label",{},"Flutterwave webhook secret hash",sf.wh),
+  btn("Save webhook hash",function(){act("saveSettings",{settings:{flw_webhook_hash:sf.wh.value.trim()}})},1)),
+ h("div",{className:"card"},h("h2",{},"SMS notifications (SmartSMS Solutions)"),
+  h("p",{className:"muted"},"Customers can request your bank account number by SMS on the login page; a \u20A6"+(D.settings.sms_fee||10)+" SMS charge is added to that order's total. No other customer SMS is sent - business activity alerts go to your Telegram automatically."),
+  h("label",{},"API-x token",sf.tk),h("label",{},"Sender ID (exactly as approved on SmartSMS)",sf.sd),h("label",{},"SMS charge when customer opts in (NGN)",sf.fee),
+  h("label",{},"Bank-details SMS template. Tokens: {site} {bank_details} {support}",sf.bt),
+  btn("Save SMS settings",function(){act("saveSettings",{settings:{sms_token:sf.tk.value.trim(),sms_sender:sf.sd.value.trim(),sms_fee:sf.fee.value,sms_bank_template:sf.bt.value}})},1),
+  h("label",{},"Test number",sf.tp),
+  btn("Send test SMS",async function(){var r=await api("adminTestSms",{phone:sf.tp.value.trim()});flash(r.ok?"Test SMS sent":(r.message||("Failed: "+(r.error||"unknown"))),!r.ok)})))};
+
+// ---------------- Branding ----------------
+P.settings=function(){var SF=[["site_name","Site name"],["site_description","Site description",1],["logo_url","Logo image URL"],["welcome_text","Welcome text"],["support_phone","Support phone"],["whatsapp_phone","WhatsApp support number for the floating help button (digits, with country code)"],["outlets","Sales outlet addresses (one per line)",1],["bank_details","Bank account details (sent by SMS when customers request them)",1],["login_rules_text","Login-page HOW IT WORKS rules shown to customers (one rule per line)",1],["auto_trial_enabled","Enable free trial on the login page (1 = on, 0 = off)"],["trial_plan_id","Free-trial plan ID (from the Plans tab)"],["trial_card_text","Free-trial card text on the login page ({plan} and {duration} are replaced automatically)",1]],f={};
+ return h("div",{className:"card"},SF.map(function(x){f[x[0]]=h(x[2]?"textarea":"input",{value:D.settings[x[0]]||"",rows:3});return h("label",{},x[1],f[x[0]])}),
+  btn("Save",function(){var s={};SF.forEach(function(x){s[x[0]]=f[x[0]].value});act("saveSettings",{settings:s})},1))};
+
+// ---------------- Banners ----------------
+P.banners=function(){var e=ed||{id:"",image_url:"",link_url:"",sort:0},f={};
+ var F=function(k,l,t){f[k]=h("input",{type:t||"text",value:e[k]});return h("label",{},l,f[k])};
+ return h("div",{},h("div",{className:"card"},h("h2",{},ed?"Edit banner":"New banner"),F("image_url","Image URL (https)"),F("link_url","Click destination URL"),F("sort","Order (lowest first)","number"),
+  btn("Save banner",function(){act("updateBanners",{op:"save",banner:{id:e.id,image_url:f.image_url.value.trim(),link_url:f.link_url.value.trim(),sort:f.sort.value}})},1),ed?btn("Cancel",function(){ed=null;render()}):null),
+  D.banners.length?table(["Image","Link","Order",""],D.banners.map(function(b){return h("tr",{},h("td",{},h("img",{className:"th",src:b.image_url,alt:""})),h("td",{},b.link_url||"-"),h("td",{},b.sort),
+   h("td",{},btn("Edit",function(){ed=b;render()}),btn("Delete",function(){if(confirm("Delete this banner?"))act("updateBanners",{op:"delete",banner:{id:b.id}})})))})):h("p",{className:"muted"},"No banners yet."))};
+
+// ---------------- Whitelist ----------------
+P.wl=function(){var m=h("input",{placeholder:"MAC address (AA:BB:CC:DD:EE:FF)"}),n=h("input",{placeholder:"Note (whose device)"});
+ return h("div",{},h("p",{className:"muted"},"Whitelisted devices skip the login page entirely. The router refreshes this list every 5 minutes."),
+  h("div",{className:"card"},m,n,btn("Add device",function(){act("updateWhitelist",{op:"add",mac:m.value,note:n.value})},1)),
+  D.whitelist.length?table(["MAC","Note",""],D.whitelist.map(function(w){return h("tr",{},h("td",{},w.mac),h("td",{},w.note),h("td",{},btn("Remove",function(){act("updateWhitelist",{op:"remove",mac:w.mac})})))})):h("p",{className:"muted"},"No whitelisted devices."))};
+
+// ---------------- Activity log ----------------
+// ---------------- Customers (accounts) ----------------
+P.customers=function(){var box=h("div",{},h("p",{className:"muted"},"Loading customers…")),term="";
+ var draw=async function(){var r=await api("adminCustomers",{q:term});if(!r.ok){box.textContent=r.message||"Could not load customers.";return}
+  var need=String(D.settings.require_account)!=="0",
+   si=h("input",{type:"search",placeholder:"Search name, email or phone",value:term}),
+   rows=r.users.map(function(u){return h("tr",{},h("td",{},(u.name||"-")+(u.role==="admin"?" (staff)":"")),h("td",{},u.email),h("td",{},u.phone||"-"),
+    h("td",{},String(u.purchases)),h("td",{},u.last_login_at?String(u.last_login_at).slice(0,10):"never"),
+    h("td",{},u.role==="admin"?null:btn(u.disabled?"Enable":"Disable",async function(){var x=await api("adminCustomerOp",{id:u.id,op:u.disabled?"enable":"disable"});if(x.ok){flash(u.disabled?"Account enabled":"Account disabled");draw()}else flash(x.message||"Failed",1)})))});
+  si.onkeydown=function(e){if(e.key==="Enter"){term=si.value.trim();draw()}};
+  box.textContent="";
+  box.append(
+   h("div",{className:"kpis"},h("div",{className:"kpi"},h("b",{},String(r.total)),h("span",{},"Customer accounts"))),
+   h("div",{className:"card"},h("h2",{},"Buying needs an account"),
+    h("p",{className:"muted"},need?"On. Visitors who press Pay are sent to sign in or create an account, then return to their purchase. WiFi sign-in pages on the router are not affected.":"Off. Anyone can buy without an account."),
+    btn(need?"Turn off":"Turn on",async function(){var x=await api("saveSettings",{settings:{require_account:need?"0":"1"}});if(x.ok){flash("Saved");await load();draw()}else flash(x.message||"Failed",1)},!need)),
+   h("div",{className:"card"},h("h2",{},"Accounts"),h("p",{className:"muted"},"Staff and customers share one sign-in page but have separate accounts. Staff are set with the ADMIN_EMAILS secret."),
+    si,r.users.length?table(["Name","Email","Phone","Purchases","Last sign-in",""],rows):h("p",{className:"muted"},term?"No accounts match that search.":"No accounts yet. They appear here when customers sign up.")))};
+ draw();return box};
+
+P.log=function(){var a=D.audit||[];
+ return h("div",{},h("p",{className:"muted"},"Every admin action and every automatic approval, newest first."),
+  a.length?table(["When","Who","Action","Detail"],a.map(function(x){return h("tr",{},h("td",{},String(x.at).slice(0,19).replace("T"," ")),h("td",{},x.who),h("td",{},x.action),h("td",{},x.detail))})):h("p",{className:"muted"},"Nothing logged yet."))};
+
+
+// ---------------- Router setup ----------------
+P.router=function(){
+ var box={st:h("div",{}),steps:h("div",{}),form:h("div",{}),tools:h("div",{}),log:h("div",{})},built=false,F={},ageEl=null,base=null,info=null;
+ var root=h("div",{},box.st,box.steps,box.form,box.tools,box.log);
+ var ago=function(s){if(s==null)return"never";if(s<90)return s+" s ago";if(s<5400)return Math.round(s/60)+" min ago";return Math.round(s/3600)+" h ago"};
+ function pull(){return api("adminRouterInfo").then(function(r){if(tab!=="router")return;
+  if(!r.ok){box.st.textContent="";box.st.append(h("div",{className:"card"},h("h2",{},"Router panel unavailable"),h("p",{className:"err"},(r.message||r.error||"")+(r.error==="unknown_action"?" The server has not been updated with the router module yet. Run the install steps, then npx wrangler deploy.":""))));return}
+  info=r;base=Date.now();paint(r)})}
+ function paint(r){drawStatus(r);drawSteps(r);if(!built){drawForm(r);built=true}drawTools(r);drawLog(r)}
+ function fact(l,v){return h("div",{className:"fact"},h("span",{},l),h("b",{},v==null||v===""?"—":String(v)))}
+ function drawStatus(r){var cls=r.online?"g":(r.last_seen?"r":"");ageEl=h("span",{},ago(r.age_sec));
+  var c=r.counts||{},w=r.wifi||{};
+  box.st.textContent="";box.st.append(h("div",{className:"card"},
+   h("div",{className:"hero"},h("div",{className:"big "+cls},h("i"),r.online?"Router connected and syncing":(r.last_seen?"Router not syncing":"Router never connected")),
+    h("div",{className:"muted"},"Last sync: ",ageEl)),
+   h("div",{className:"facts"},fact("RouterOS / name",r.router),fact("Sync script",r.sxver?"v"+r.sxver+(r.expected_sxver&&r.sxver!==r.expected_sxver?" (updating to v"+r.expected_sxver+")":""):null),
+    fact("Hotspot users on router",c.users),fact("Online now",r.sessions),fact("Orders waiting for router",D&&D.stats?D.stats.awaiting_router:null),fact("Queued commands",r.pending),fact("WiFi name",w.ssid))))}
+ function stepState(r){var ck={};r.checks.forEach(function(c){ck[c.id]=c});
+  var tested=!!(r.test&&r.diag.some(function(d){return d.m==="ADMIN-TEST-"+r.test.id}));
+  var s=[true,!!ck.contact.ok&&ck.token.ok,!!ck.live.ok,tested];
+  var cur=s.findIndex(function(x){return!x});return{done:s,cur:cur<0?4:cur,tested:tested}}
+ function drawSteps(r){var ss=stepState(r),tok=(r.install_cmd.match(/token=([^"&]+)/)||[])[1]||"",show=drawSteps.show;
+  var shown=r.install_cmd?(show?r.install_cmd:r.install_cmd.replace(tok,r.token_masked)):"";
+  var step=function(n,title,body){var cls=ss.done[n-1]&&n!==1?"done":(ss.cur===n-1?"cur":"");if(n===1&&ss.cur>0)cls="done";
+   return h("div",{className:"step "+cls},h("div",{className:"num"},cls==="done"?"✓":String(n)),h("div",{},h("h3",{},title),body))};
+  box.steps.textContent="";box.steps.append(h("div",{className:"card"},h("h2",{},"Connect your MikroTik"),h("p",{className:"sub"},"Everything is done from here — no files to hunt for. The router installs its own scripts from this server and then keeps itself in sync."),
+   step(1,"Check the router is ready",h("div",{},h("p",{className:"muted"},"Hotspot already running on the router, the router has internet, and its clock is correct (System → Clock; wrong time breaks HTTPS). Set the interface names below if yours differ from the defaults.")  )),
+   step(2,"Paste this into the router",r.token_ok?h("div",{},h("p",{className:"muted"},"Open Winbox → ",h("b",{},"New Terminal"),", paste the line below and press Enter. It is safe to run again at any time."),
+     h("div",{className:"cmd"},shown),
+     h("button",{className:"p",on:{click:function(){copy(r.install_cmd,"Install command copied")}}},"Copy command"),
+     h("button",{on:{click:function(){drawSteps.show=!drawSteps.show;drawSteps(r)}}},show?"Hide token":"Show token"),
+     h("a",{className:"btn",href:r.install_cmd.replace(/^.*url="([^"]+)".*$/,"$1"),download:"sx-install.rsc",target:"_blank",rel:"noopener"},"Download as file"),
+     h("p",{className:"muted",style:"font-size:.82rem"},"The command contains your secret router token. Only paste it into your own router.")):
+     h("div",{className:"callout w"},"The router token is not set on the Worker, so no install command can be made. In PowerShell run ",h("code",{},"npx wrangler secret put ROUTER_TOKEN")," (paste 32+ random characters), then ",h("code",{},"npx wrangler deploy"),", and reload this page.")),
+   step(3,"Wait for the connection",h("p",{className:ss.done[2]?"ok":"muted"},ss.done[2]?"✓ The router is connected and syncing every "+r.cfg.interval+" s.":"Waiting for the first sync… this page checks every 5 seconds. It normally appears within about a minute. If nothing happens, read the checklist below.")),
+   step(4,"Test the round trip",h("p",{className:ss.tested?"ok":"muted"},ss.tested?"✓ Confirmed: this page → router → this page works.":"Use “Test connection” under Tools: it sends a command to the router and waits for the router to answer.")))
+  ,h("div",{className:"card"},h("h2",{},"Health checklist"),
+   h("ul",{className:"chk-l"},r.checks.map(function(c){return h("li",{},h("span",{className:"ic "+(c.ok?"y":"n")},c.ok?"✓":"!"),h("div",{},h("b",{},c.title),c.note?h("small",{},c.note):null,!c.ok&&c.fix?h("div",{className:"fx"},c.fix):null))}))))}
+ function drawForm(r){var c=r.cfg;
+  F.wan=h("input",{value:c.wan_if,placeholder:"ether1",maxLength:24});F.lan=h("input",{value:c.lan_if,placeholder:"wlan1 or bridge1",maxLength:24});
+  F.iv=h("input",{type:"number",min:15,max:120,value:c.interval});F.pcq=h("input",{type:"checkbox",checked:c.pcq});F.wg=h("textarea",{rows:3,placeholder:"one website per line, e.g. cdn.example.com"},c.walled.join("\n"));
+  box.form.textContent="";box.form.append(h("div",{className:"card"},h("h2",{},"Router settings"),h("p",{className:"sub"},"These shape the install command above. After saving, run the command on the router again to apply them (safe to repeat; customers stay logged in and users are kept)."),
+   h("div",{className:"row"},h("label",{},"Internet (WAN) interface",F.wan),h("label",{},"WiFi / hotspot interface",F.lan),h("label",{},"Sync every (seconds, 15–120)",F.iv)),
+   h("label",{className:"chk",style:"margin-top:14px"},F.pcq,"Fair-share bandwidth between customers (PCQ queues)"),
+   h("label",{},"Extra websites customers may open before login (walled garden)",F.wg),
+   h("p",{className:"muted",style:"margin-top:10px"},"Always allowed:"),h("div",{className:"chips"},r.base_walled.filter(Boolean).map(function(x){return h("span",{className:"chip"},x)})),
+   h("button",{className:"p",on:{click:async function(){var res=await api("adminRouterSave",{cfg:{wan_if:F.wan.value.trim(),lan_if:F.lan.value.trim(),interval:F.iv.value,pcq:F.pcq.checked,walled:F.wg.value}});
+     if(!res.ok){flash(res.message||"Could not save",1);return}flash("Settings saved — run the install command on the router to apply");pull()}}},"Save settings")))}
+ function drawTools(r){var t=r.test,ok=t&&r.diag.some(function(d){return d.m==="ADMIN-TEST-"+t.id}),waiting=t&&!ok&&Date.now()-new Date(t.sent)<120000,late=t&&!ok&&!waiting;
+  box.tools.textContent="";box.tools.append(h("div",{className:"card"},h("h2",{},"Tools"),
+   h("div",{},h("button",{className:"p",disabled:!r.token_ok||!r.last_seen,on:{click:async function(){var x=await api("adminRouterAction",{op:"test"});if(!x.ok){flash(x.message||"Failed",1);return}flash("Test sent — waiting for the router");pull()}}},"Test connection"),
+    h("button",{on:{click:async function(){if(!confirm("Re-send the login pages to the router at the next sync?"))return;var x=await api("adminRouterAction",{op:"refresh_portal"});flash(x.ok?"Login pages will be re-sent at the next sync":(x.message||"Failed"),!x.ok)}}},"Re-send login pages"),
+    h("button",{on:{click:function(){pull().then(function(){flash("Status refreshed")})}}},"Refresh now")),
+   t?h("p",{className:ok?"ok":(late?"warn":"muted")},ok?"✓ Test "+t.id+" confirmed by the router.":(waiting?"Test "+t.id+" sent — waiting for the router's next sync (up to about "+r.cfg.interval+" s)…":"Test "+t.id+" got no answer in 2 minutes. Check the checklist above.")):h("p",{className:"muted"},"The test queues a harmless command (a log line) on the router and waits for the router to report back."),
+   h("p",{className:"muted",style:"font-size:.84rem"},"Customer accounts, vouchers, renewals, revokes and the MAC whitelist sync automatically — nothing to do here for those.")))}
+ function drawLog(r){box.log.textContent="";var errs=r.errors||[];
+  box.log.append(h("div",{className:"card"},h("h2",{},"Router activity"),
+   errs.length?h("div",{className:"callout w"},h("b",{},"Problems reported by the router"),errs.map(function(e){return h("div",{},e.at+" UTC — "+(e.hint||e.m),h("small",{className:"muted"},"  ("+e.m+")"))})):null,
+   r.diag.length?h("div",{className:"log"},r.diag.map(function(d){return h("div",{className:/^ERR-/.test(d.m)?"err":""},d.at+"  "+d.m)})):h("p",{className:"muted"},"No messages from the router yet."),
+   r.diag.length?h("button",{className:"sm",style:"margin-top:10px",on:{click:async function(){await api("adminRouterAction",{op:"clear_log"});pull()}}},"Clear log"):null))}
+ pull();
+ pollT=setInterval(function(){if(tab!=="router"){clearInterval(pollT);return}pull()},5000);
+ tickT=setInterval(function(){if(info&&ageEl&&info.age_sec!=null)ageEl.textContent=ago(info.age_sec+Math.round((Date.now()-base)/1000))},1000);
+ return root};
+
+api("getSettings",null,true).then(function(r){if(r.ok)setFab(r.settings.whatsapp_phone)});
+q("#hm").append(svg("menu"));q("#hm").onclick=function(){q("#shell").classList.toggle("open")};q("#scrim").onclick=function(){q("#shell").classList.remove("open")};
+q("#so").onclick=out;q("#rpill").onclick=function(){go("router")};
+window.addEventListener("hashchange",function(){var t=(location.hash||"#dash").slice(1);if(T&&D&&META[t]&&t!==tab){tab=t;render()}});
+if(T)load();else render();
+</script></body></html>
